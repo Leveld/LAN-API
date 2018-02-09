@@ -23,10 +23,8 @@
     "no-unused-vars": 0,
     "no-useless-constructor": 1,
     "no-extend-native": 1,
-    "import/no-unresolved": 0,
     "no-restricted-properties": 1,
     "no-console": 0,
-    "import/no-duplicates": 1,
     "indent": [
       "error",
        2

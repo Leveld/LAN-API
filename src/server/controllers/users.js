@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const { apiServerIP, authServerIP, dbServerIP } = require('../util');
 
-const getToken = (req) => req.header('Authorization').split('Bearer ').splice(0).join(' ').trim();
+const getToken = (req) => req.headers.authorization.split('Bearer ').splice(0).join(' ').trim();
 const getUserFromToken = async (token) => {
   const user = await axios.get(`${apiServerIP}user`, { headers: { Authorization: `Bearer ${token}`}, withCredentials: true });
   if (user)
@@ -12,11 +12,9 @@ const getUserFromToken = async (token) => {
 const getUser = async (req, res, next) => {
   const token = getToken(req);
 
-  console.log(token);
   let auth = await axios.get(`${authServerIP}token?token=${token}`);
   if (auth)
     auth = auth.data;
-
   const { token : tokenData = {}, user : userData = {} } = auth;
   const { expires } = tokenData;
   const { userID : id, accountType : type } = userData;
@@ -37,19 +35,17 @@ const convertToOtherUserType = async (req, res, next) => {
   if (type == null)
     missing.push('type');
   if (missing.length > 0)
-    error(`Request did not contain all required parameters. Missing: ${missing}`);
-
+  return error(`Request did not contain all required parameters. Missing: ${missing}`);
   const convertedUser = await axios.put(`${dbServerIP}user`, {
     email: user.email,
     type,
     fields
   });
-
-  await res.send(convertedUser);
+  await res.send(convertedUser);  
 };
 
 const updateUser = async (req, res, next) => {
 
 };
 
-module.exports = { getUser };
+module.exports = { getUser, convertToOtherUserType };

@@ -1,9 +1,9 @@
 const USER_ERROR = 422;
 
 const errorHandler = (error, req, res, next, message) => {
-  message = message || 'Oops! Looks like that doesn\'t work :(';
-  console.log(error);
-  res.status(USER_ERROR).send({error, message});
+  message = message || error ? error.message : undefined || 'Oops! Looks like that doesn\'t work :(';
+  const status = (error ? error.response ? error.response.status : error.status : undefined) || USER_ERROR;
+  res.status(status).send(error && error.response ? error.response.data : { error: error ? error.stack : null, message });
 };
 
 const asyncMiddleware = cb =>

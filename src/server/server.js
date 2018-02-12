@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const url = require('url');
 const axios = require('axios');
+const cors = require('cors');
 
 const path = require('path');
 
@@ -14,6 +15,12 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(
+  cors({
+  allowedHeaders:['Content-Type', 'Authorization'],
+  /*methods:['GET','POST','PUT'],*/
+  credentials: true
+  }));
 
 const obj = {};
 

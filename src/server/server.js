@@ -8,8 +8,7 @@ const PORT = process.env.PORT || '3001';
 
 const app = express();
 
-app.use(
-cors({
+app.use(cors({
   allowedHeaders:['Content-Type', 'Authorization'],
   credentials: true
 }));

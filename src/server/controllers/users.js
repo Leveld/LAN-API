@@ -3,6 +3,7 @@ const axios = require('axios');
 const { apiServerIP, authServerIP, dbServerIP } = require('capstone-utils');
 
 const getToken = (req) => req.header('Authorization') ? req.header('Authorization').split('Bearer ').splice(0).join(' ').trim() : undefined;
+
 const getUserFromToken = async (token) => {
   const user = await axios.get(`${apiServerIP}user`, { headers: { Authorization: `Bearer ${token}`}, withCredentials: true });
   if (user)
@@ -39,11 +40,13 @@ const convertToOtherUserType = async (req, res, next) => {
   if (missing.length > 0)
     error(`Request did not contain all required parameters. Missing: ${missing}`);
 
-  const convertedUser = await axios.put(`${dbServerIP}user`, {
+  let convertedUser = await axios.put(`${dbServerIP}user`, {
     email: user.email,
     type,
     fields
   });
+  if (convertedUser)
+    convertedUser = convertedUser.data
 
   await res.send(convertedUser);
 };
@@ -54,5 +57,6 @@ const updateUser = async (req, res, next) => {
 
 module.exports = {
   getUser,
-  convertToOtherUserType
+  convertToOtherUserType,
+  getToken
 };

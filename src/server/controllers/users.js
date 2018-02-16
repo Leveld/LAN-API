@@ -1,9 +1,7 @@
 const axios = require('axios');
 
 const { apiServerIP, authServerIP, dbServerIP } = require('capstone-utils');
-
 const getToken = (req) => req.header('Authorization') ? req.header('Authorization').split('Bearer ').splice(0).join(' ').trim() : undefined;
-
 const getUserFromToken = async (token) => {
   const user = await axios.get(`${apiServerIP}user`, { headers: { Authorization: `Bearer ${token}`}, withCredentials: true });
   if (user)

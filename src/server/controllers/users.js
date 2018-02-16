@@ -10,6 +10,7 @@ const getUserFromToken = async (token) => {
     return user.data;
 };
 
+// GET /user
 const getUser = async (req, res, next) => {
   const token = getToken(req);
 
@@ -29,14 +30,17 @@ const getUser = async (req, res, next) => {
   await res.send(user);
 };
 
+// PUT /user
 const convertToOtherUserType = async (req, res, next) => {
   const token = getToken(req);
   const user = await getUserFromToken(token);
   const { type, fields = {} } = req.body;
 
   const missing = [];
+
   if (type == null)
     missing.push('type');
+
   if (missing.length > 0)
     error(`Request did not contain all required parameters. Missing: ${missing}`);
 
@@ -45,12 +49,24 @@ const convertToOtherUserType = async (req, res, next) => {
     type,
     fields
   });
+
   if (convertedUser)
     convertedUser = convertedUser.data
+
+  await axios.patch(`${authServerIP}token`, {
+    token,
+    fields: {
+      user: {
+        userID: convertedUser._id,
+        accountType: convertedUser.type
+      }
+    }
+  });
 
   await res.send(convertedUser);
 };
 
+// PATCH /user
 const updateUser = async (req, res, next) => {
 
 };

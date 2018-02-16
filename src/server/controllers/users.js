@@ -53,6 +53,8 @@ const convertToOtherUserType = async (req, res, next) => {
   if (convertedUser)
     convertedUser = convertedUser.data
 
+  console.log(`convertedUser._id: ${convertedUser._id} | convertedUser.type: ${convertedUser.type}`)
+
   await axios.patch(`${authServerIP}token`, {
     token,
     fields: {

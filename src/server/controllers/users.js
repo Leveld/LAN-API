@@ -58,5 +58,6 @@ const updateUser = async (req, res, next) => {
 module.exports = {
   getUser,
   convertToOtherUserType,
-  getToken
+  getToken,
+  getUserFromToken
 };

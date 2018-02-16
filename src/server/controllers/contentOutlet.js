@@ -5,12 +5,12 @@ const plus = google.plus('v1');
 const OAuth2Client = google.auth.OAuth2;
 const { throwError, authServerIP, dbServerIP } = require('capstone-utils');
 
-const { getToken : getUserToken, getUserFromToken  } = require('./user');
+const { getToken : getUserToken, getUserFromToken  } = require('./users');
 
 const oauth2Client = new OAuth2Client(
   '660421589652-k537cl8vg3v8imub4culbjon6f20fph6.apps.googleusercontent.com',
   'yYuc3V2fIT4DOfnZXIyhBvsh',
-  `http://localhost:3002/oauth`
+  `http://localhost:3002/goauth`
 );
 
 google.options({ auth: oauth2Client });
@@ -33,11 +33,20 @@ const getOutletToken = async (contentOutlet) => {
 const generateURL = async (req, res, next) => {
   const { type = '', redirect = '' } = req.query;
   const user = await getUserFromToken(getUserToken(req));
-  // TODO throw error if user wasn't found
-  const userID = base64.encode(user._id);
-  const userType = base64.encode(user.type);
 
-  await res.status(307).redirect(`${authServerIP}coURL?type=${type}&redirect=${redirect}&userID=${userID}&userType=${userType}`);
+  let url = await axios.get(`${authServerIP}coURL`, {
+    params: {
+      type,
+      redirect,
+      userID: user._id,
+      userType: user.type
+    }
+  });
+
+  if (!url)
+    throwError('APIGenerateCOURLError', 'Error during generation of google oauth url.')
+
+  await res.send(url.data);
 }
 
 // GET /coInfo
@@ -50,26 +59,22 @@ const getContentOutletInfo = async (req, res, next) => {
   const youtube = google.youtube({
     version: 'v3'
   });
-  youtube.channels.list({
+  const data = await youtube.channels.list({
     "part": "snippet",
     "mine": "true"
-  }, (err, data) => {
-    if (err) {
-      throw err;
-    }
-
-    const channelId = data.data.items[0].id;
-    const channelLink = `https://www.youtube.com/channel/${channelId}`;
-    const profilePicture = data.data.items[0].snippet.thumbnails.default.url;
-    const channelName = data.data.items[0].snippet.localized.title;
-    const channelInfo = {
-      channelName,
-      profilePicture,
-      channelLink
-    }
-
-    return await res.send({ channelInfo });
   });
+
+  const channelId = data.data.items[0].id;
+  const channelLink = `https://www.youtube.com/channel/${channelId}`;
+  const profilePicture = data.data.items[0].snippet.thumbnails.default.url;
+  const channelName = data.data.items[0].snippet.localized.title;
+  const channelInfo = {
+    channelName,
+    profilePicture,
+    channelLink
+  }
+
+  return await res.send({ channelInfo });
 }
 
 // GET /outlet
@@ -140,9 +145,11 @@ const updateOutlet = async (req, res, next) => {
 };
 
 
-module.exports {
+module.exports = {
   getOutlet,
   createOutlet,
   updateOutlet,
-  getOutletToken
+  getOutletToken,
+  getContentOutletInfo,
+  generateURL
 };

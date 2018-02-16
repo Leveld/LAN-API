@@ -10,7 +10,8 @@ const app = express();
 
 app.use(cors({
   allowedHeaders:['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
+  origin: '*'
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));

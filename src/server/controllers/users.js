@@ -68,12 +68,53 @@ const convertToOtherUserType = async (req, res, next) => {
 
 // PATCH /user
 const updateUser = async (req, res, next) => {
+  const { fields } = req.body;
 
+  if(typeof fields !== 'object')
+    error(`Must provide fields to update`);
+
+  const token = getToken(req);
+  const user = await getUserFromToken(token);
+
+  let updatedUser = await axios.patch(`${dbServerIP}user`, {
+    id: user._id,
+    type: user.type,
+    fields
+  });
+
+  if (updatedUser)
+    updatedUser = updatedUser.data;
+
+  await res.send(updatedUser);
 };
+
+// PATCH /user/co
+const addContentOutlet = async (req, res, next) => {
+  const { contentOutlet } = req.body;
+
+  if(typeof contentOutlet !== 'string')
+    error(`Must provide contentOutet id`);
+
+  const token = getToken(req);
+  const user = await getUserFromToken(token);
+
+  let updatedUser = await axios.patch(`${dbServerIP}user/co`, {
+    id: user._id,
+    type: user.type,
+    contentOutlet 
+  });
+
+  if (updatedUser)
+    updatedUser = updatedUser.data;
+
+  await res.send(updatedUser);
+}
 
 module.exports = {
   getUser,
   convertToOtherUserType,
   getToken,
-  getUserFromToken
+  getUserFromToken,
+  updateUser,
+  addContentOutlet
 };

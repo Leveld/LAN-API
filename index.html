@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=11' />
+    <title>Leveld API</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href='css/base.css' rel='stylesheet' />
+    <link href='css/style.css' rel='stylesheet' />
+    <link href='css/railscasts.css' rel='stylesheet' />
+  </head>
+  <body>
+    <!--START--><div id='app'><div class="container unlimiter" data-reactroot=""><div class="fixed-top fixed-right space-left16"><div class="fill-light col6 pin-right"></div></div><div class="space-top5 scroll-styled overflow-auto pad1 width16 sidebar fixed-left fill-dark dark"><div class="pad0x small"><div class="small pad0x quiet space-top1">Introduction</div><a href="#leveld-ad-network-api" class="line-height15 pad0x pad00y quiet block ">Leveld Ad Network API</a><div class="small pad0x quiet space-top1">Docs</div><a href="#contentoutlets" class="line-height15 pad0x pad00y quiet block ">ContentOutlets</a><a href="#users" class="line-height15 pad0x pad00y quiet block ">Users</a></div></div><div class="space-left16"><div class=""><div class="clearfix"><div data-title="Leveld Ad Network API" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h2 id="leveld-ad-network-api">Leveld Ad Network API</h2>
+<p>This is the docs for the <a href="https://github.com/Leveld/LAN-API">Leveld API</a>. Cool summary of project.</p>
+</div></div><div data-title="ContentOutlets" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h2 id="contentoutlets">ContentOutlets</h2>
+<p>Use these routes to get information on a ContentOutlet or to retrieve a url used to authenticate a new ContentOutlet.</p>
+</div></div><div data-title="Get ContentOutlet" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h3 id="get-contentoutlet">Get ContentOutlet</h3>
+<p>Get a ContentOutlet.</p>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>The 
+<code>id</code>
+ of the ContentOutlet.</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
+      <div class='pad0 code small endpoint-url'>/outlet?id=<span class="strong">{CONTENT_OUTLET_ID}</span></div>
+    </div>
+<h4 id="example-request">Example request</h4>
+<pre class='hljs'>$ curl http://localhost:3000/outlet?id=ji83ik2l99s9sl2klk1fj \
+-H <span class="hljs-string">"Authorization: Bearer USER_TOKEN"</span></pre>
+<h4 id="example-response">Example response</h4>
+<pre class='hljs'>{
+  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"ji83ik2l99s9sl2klk1fj"</span>,
+  <span class="hljs-attr">"channelName"</span>: <span class="hljs-string">"The Cool Channel"</span>,
+  <span class="hljs-attr">"channelID"</span>: <span class="hljs-string">"lijfoa98sujf2k3j1lk2j"</span>,
+  <span class="hljs-attr">"profilePicture"</span>: <span class="hljs-string">"https://example.com/image/lakjsdlfkj.jpg"</span>,
+  <span class="hljs-attr">"channelLink"</span>: <span class="hljs-string">"https://example.com/lijfoa98sujf2k3j1lk2j"</span>,
+  <span class="hljs-attr">"owner"</span>: {
+    <span class="hljs-attr">"ownerType"</span>: <span class="hljs-string">"ContentProducer"</span>,
+    <span class="hljs-attr">"ownerID"</span>: <span class="hljs-string">"lakjdsflkj12lkj309"</span>,
+    <span class="hljs-attr">"lastUpdated"</span>: <span class="hljs-string">"2018-02-20T00:32:16.220Z"</span>
+  }
+}</pre>
+</div></div><div data-title="Create ContentOutlet" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h3 id="create-contentoutlet">Create ContentOutlet</h3>
+<p>Create a ContentOutlet.</p>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fields</code></td>
+<td>A key-value Object of properties matching the ContentOutlet schema.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>channelName</code></td>
+<td>The name of the channel, pulled from the Youtube API.</td>
+</tr>
+<tr>
+<td><code>channelID</code></td>
+<td>The ID of the ContentOutlet, pulled from the Youtube API.</td>
+</tr>
+<tr>
+<td><code>profilePicture</code></td>
+<td>The profile picture of the ContentOutlet, pulled from the Youtube API.</td>
+</tr>
+<tr>
+<td><code>channelLink</code></td>
+<td>A URL pointing to the ContentOutlet, pulled from the Youtube API.</td>
+</tr>
+<tr>
+<td><code>owner</code></td>
+<td>The account which owns this ContentOutlet.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields.owner</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ownerType</code></td>
+<td>The type of account this ContentOutlet belongs to.</td>
+</tr>
+<tr>
+<td><code>ownerID</code></td>
+<td>The ID of the account this ContentOutlet belongs to.</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>POST</div>
+      <div class='pad0 code small endpoint-url'>/outlet</div>
+    </div>
+<h4 id="example-request-1">Example request</h4>
+<pre class='hljs'>$ curl -v -XPOST http://localhost:3000/outlet \
+-H <span class="hljs-string">"Authorization: Bearer USER_TOKEN"</span> \
+-d <span class="hljs-string">'{
+  "fields": {
+    "channelName": "The Cool Channel",
+    "channelID": "lijfoa98sujf2k3j1lk2j",
+    "profilePicture": "https://example.com/image/lakjsdlfkj.jpg",
+    "channelLink": "https://example.com/lijfoa98sujf2k3j1lk2j",
+    "owner": {
+      "ownerType": "ContentProducer",
+      "ownerID": "lakjdsflkj12lkj309"
+    }
+  }
+}'</span></pre>
+<h4 id="example-response-1">Example response</h4>
+<pre class='hljs'>{
+  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"ji83ik2l99s9sl2klk1fj"</span>,
+  <span class="hljs-attr">"channelName"</span>: <span class="hljs-string">"The Cool Channel"</span>,
+  <span class="hljs-attr">"channelID"</span> : <span class="hljs-string">"lijfoa98sujf2k3j1lk2j"</span>,
+  <span class="hljs-attr">"profilePicture"</span>: <span class="hljs-string">"https://example.com/image/lakjsdlfkj.jpg"</span>,
+  <span class="hljs-attr">"channelLink"</span>: <span class="hljs-string">"https://example.com/lijfoa98sujf2k3j1lk2j"</span>,
+  <span class="hljs-attr">"owner"</span>: {
+    <span class="hljs-attr">"ownerType"</span>: <span class="hljs-string">"ContentProducer"</span>,
+    <span class="hljs-attr">"ownerID"</span>: <span class="hljs-string">"lakjdsflkj12lkj309"</span>
+  }
+}</pre>
+</div></div><div data-title="Update ContentOutlet" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h3 id="update-contentoutlet">Update ContentOutlet</h3>
+<p>Update a ContentOutlet.</p>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fields</code></td>
+<td>A key-value Object of properties matching the ContentOutlet schema.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>channelName</code></td>
+<td>The name of the channel, pulled from the Youtube API.</td>
+</tr>
+<tr>
+<td><code>channelID</code></td>
+<td>The ID of the ContentOutlet, pulled from the Youtube API.</td>
+</tr>
+<tr>
+<td><code>profilePicture</code></td>
+<td>The profile picture of the ContentOutlet, pulled from the Youtube API.</td>
+</tr>
+<tr>
+<td><code>channelLink</code></td>
+<td>A URL pointing to the ContentOutlet, pulled from the Youtube API.</td>
+</tr>
+<tr>
+<td><code>owner</code></td>
+<td>The account which owns this ContentOutlet.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields.owner</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ownerType</code></td>
+<td>The type of account this ContentOutlet belongs to.</td>
+</tr>
+<tr>
+<td><code>ownerID</code></td>
+<td>The ID of the account this ContentOutlet belongs to.</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>PATCH</div>
+      <div class='pad0 code small endpoint-url'>/outlet</div>
+    </div>
+<h4 id="example-request-2">Example request</h4>
+<pre class='hljs'>$ curl -v -XPATCH http://localhost:3000/outlet \
+-H <span class="hljs-string">"Authorization: Bearer USER_TOKEN"</span> \
+-d <span class="hljs-string">'{
+  "id": "ji83ik2l99s9sl2klk1fj",
+  "fields": {
+    "channelName": "The Cool Channel",
+    "profilePicture": "https://example.com/image/lakjsdlfkj.jpg"
+  }
+}'</span></pre>
+<h4 id="example-response-2">Example response</h4>
+<pre class='hljs'>{
+  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"ji83ik2l99s9sl2klk1fj"</span>,
+  <span class="hljs-attr">"channelName"</span>: <span class="hljs-string">"The Lame Channel"</span>,
+  <span class="hljs-attr">"channelID"</span> : <span class="hljs-string">"lijfoa98sujf2k3j1lk2j"</span>,
+  <span class="hljs-attr">"profilePicture"</span>: <span class="hljs-string">"https://example.com/image/lamePic.jpg"</span>,
+  <span class="hljs-attr">"channelLink"</span>: <span class="hljs-string">"https://example.com/lijfoa98sujf2k3j1lk2j"</span>,
+  <span class="hljs-attr">"owner"</span>: {
+    <span class="hljs-attr">"ownerType"</span>: <span class="hljs-string">"ContentProducer"</span>,
+    <span class="hljs-attr">"ownerID"</span>: <span class="hljs-string">"lakjdsflkj12lkj309"</span>
+  }
+}</pre>
+</div></div><div data-title="Get Info" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h3 id="get-info">Get Info</h3>
+<p>Pull ContentOutlet information directly from the YouTube API.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>The 
+<code>id</code>
+ of the ContentOutlet.</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
+      <div class='pad0 code small endpoint-url'>/coInfo?id=<span class="strong">{CONTENT_OUTLET_ID}</span></div>
+    </div>
+<h4 id="example-request-3">Example request</h4>
+<pre class='hljs'>$ curl http://localhost:3000/coInfo?id=ji83ik2l99s9sl2klk1fj \
+-H <span class="hljs-string">"Authorization: Bearer USER_TOKEN"</span></pre>
+<h4 id="example-response-3">Example response</h4>
+<pre class='hljs'>{
+  <span class="hljs-attr">"channelName"</span>: <span class="hljs-string">"The Cool Channel"</span>,
+  <span class="hljs-attr">"profilePicture"</span>: <span class="hljs-string">"https://example.com/image/lakjsdlfkj.jpg"</span>,
+  <span class="hljs-attr">"channelLink"</span>: <span class="hljs-string">"https://example.com/lijfoa98sujf2k3j1lk2j"</span>,
+}</pre>
+</div></div><div data-title="Get URL" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h3 id="get-url">Get URL</h3>
+<p>Get a URL to redirect a user to, to authenticate a new ContentOutlet.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>The type of the Content Outlet to create.</td>
+</tr>
+<tr>
+<td><code>redirect</code></td>
+<td>(optional) The URL to redirect the user to. URL should be relative to the frontend server root. (ie. 
+<code>example/path</code>
+ will redirect to 
+<code>http://localhost:3000/example/path</code>
+)</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
+      <div class='pad0 code small endpoint-url'>/coURL</div>
+    </div>
+<h4 id="example-request-4">Example request</h4>
+<pre class='hljs'>$ curl http://localhost:3000/coURL?<span class="hljs-built_in">type</span>=google&amp;redirect=example%2Fpath \
+-H <span class="hljs-string">"Authorization: Bearer USER_TOKEN"</span></pre>
+<h4 id="example-response-4">Example response</h4>
+<pre class='hljs'>{
+  <span class="hljs-attr">"url"</span> : <span class="hljs-string">"https://accounts.google.com/o/oauth2/v2/auth?sdkjflksdjflksdfjdnf"</span>
+}</pre>
+</div></div><div data-title="Users" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h2 id="users">Users</h2>
+</div></div><div data-title="Get User" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h3 id="get-user">Get User</h3>
+<p>Get a User.</p>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>GET</div>
+      <div class='pad0 code small endpoint-url'>/user</div>
+    </div>
+<h4 id="example-request-5">Example request</h4>
+<pre class='hljs'>$ curl http://localhost:3000/user \
+-H <span class="hljs-string">"Authorization: Bearer USER_TOKEN"</span></pre>
+<h4 id="example-response-5">Example response</h4>
+<pre class='hljs'>{
+  "_id": "laksdjflk3j45629384j2lk34j",
+  "type": "User",
+  "email": "joe@hotmail.com",
+  "emailVerified": true,
+  "name": "Joe Smith",
+  "auth0ID: "auth0|lkajdflkj2l3ij498hsdfnslkdf",
+  "lastIP": "135.292.49.191",
+  "lastLoginAt": "2018-02-20T01:40:05.110Z",
+  "createdAt": "2018-01-20T01:40:05.110Z",
+  "age": 43,
+  "gender": "Male",
+  "contact": {
+    "email": "bobby@example.com",
+    "phoneNumber": "(555) 555-5555",
+    "facebook": "https://facebook.com/Bobby",
+    "twitter": "https://twitter.com/Bobby",
+    "linkedIn": "https://linkedin.com/Bobby",
+    "googlePlus": "https://plus.google.com/Bobby",
+  },
+  "settings": {
+    "showEmail": false,
+    "showContactEmail": true,
+    "showAge": true,
+    "showGender": true,
+    "showPhoneNumber": false,
+    "showFacebook": false,
+    "showTwitter": false,
+    "showLinkedIn": false,
+    "showGooglePlus": true
+  }
+}</pre>
+</div></div><div data-title="Convert User" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h3 id="convert-user">Convert User</h3>
+<p>Convert a User to another type.</p>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>The type to convert the user to.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td>A key-value Object of properties matching the User schema.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>The type of the user.</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>The user's email address.</td>
+</tr>
+<tr>
+<td><code>emailVerified</code></td>
+<td>Whether or not the user has verified their email address.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>The user's name.</td>
+</tr>
+<tr>
+<td><code>auth0ID</code></td>
+<td>The user's ID with auth0.</td>
+</tr>
+<tr>
+<td><code>lastIP</code></td>
+<td>The last IP address the user logged in with.</td>
+</tr>
+<tr>
+<td><code>lastLoginAt</code></td>
+<td>The last time the user logged in.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td>The time the User's account was created.</td>
+</tr>
+<tr>
+<td><code>age</code></td>
+<td>The user's age.</td>
+</tr>
+<tr>
+<td><code>gender</code></td>
+<td>The user's gender.</td>
+</tr>
+<tr>
+<td><code>contact</code></td>
+<td>The account which owns this ContentOutlet.</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td>The contact information of the user</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields.contact</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email</code></td>
+<td>The email address to contact the user with.</td>
+</tr>
+<tr>
+<td><code>phoneNumber</code></td>
+<td>The user's phone number.</td>
+</tr>
+<tr>
+<td><code>facebook</code></td>
+<td>The URL of the user's facebook profile.</td>
+</tr>
+<tr>
+<td><code>twitter</code></td>
+<td>The URL of the user's twitter profile.</td>
+</tr>
+<tr>
+<td><code>linkedIn</code></td>
+<td>The URL of the user's linkedIn profile.</td>
+</tr>
+<tr>
+<td><code>googlePlus</code></td>
+<td>The URL of the user's googlePlus profile.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields.settings</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>showEmail</code></td>
+<td>Whether or not to show their email on their profile.</td>
+</tr>
+<tr>
+<td><code>showContactEmail</code></td>
+<td>Whether or not to show their contact email their profile.</td>
+</tr>
+<tr>
+<td><code>showAge</code></td>
+<td>Whether or not to show their age on their profile.</td>
+</tr>
+<tr>
+<td><code>showGender</code></td>
+<td>Whether or not to show their gender on their profile.</td>
+</tr>
+<tr>
+<td><code>showPhoneNumber</code></td>
+<td>Whether or not to show their phone number on their profile.</td>
+</tr>
+<tr>
+<td><code>showFacebook</code></td>
+<td>Whether or not to show an anchor to their Facebook account on their profile.</td>
+</tr>
+<tr>
+<td><code>showTwitter</code></td>
+<td>Whether or not to show an anchor to their Twitter account on their profile.</td>
+</tr>
+<tr>
+<td><code>showLinkedIn</code></td>
+<td>Whether or not to show an anchor to their LinkedIn account on their profile.</td>
+</tr>
+<tr>
+<td><code>showGooglePlus</code></td>
+<td>Whether or not to show an anchor to their Google Plus account on their profile.</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>PUT</div>
+      <div class='pad0 code small endpoint-url'>/user</div>
+    </div>
+<h4 id="example-request-6">Example request</h4>
+<pre class='hljs'>$ curl -v -XPUT http://localhost:3000/user \
+-H <span class="hljs-string">"Authorization: Bearer USER_TOKEN"</span> \
+-d <span class="hljs-string">'{
+  "type": "ContentProducer"
+  "fields": {
+    "email": "bob@example.com",
+    "emailVerified": true,
+    "name": "Bobby",
+  }
+}'</span></pre>
+<h4 id="example-response-6">Example response</h4>
+<pre class='hljs'>{
+  "_id": "laksdjflk3j45629384j2lk34j",
+  "type": "ContentProducer",
+  "email": "bob@example.com",
+  "emailVerified": true,
+  "name": "Bobby",
+  "auth0ID: "auth0|lkajdflkj2l3ij498hsdfnslkdf",
+  "lastIP": "135.292.49.191",
+  "lastLoginAt": "2018-02-20T01:40:05.110Z",
+  "createdAt": "2018-01-20T01:40:05.110Z",
+  "age": 43,
+  "gender": "Male",
+  "contact": {
+    "email": "bobby@example.com",
+    "phoneNumber": "(555) 555-5555",
+    "facebook": "https://facebook.com/Bobby",
+    "twitter": "https://twitter.com/Bobby",
+    "linkedIn": "https://linkedin.com/Bobby",
+    "googlePlus": "https://plus.google.com/Bobby",
+  },
+  "settings": {
+    "showEmail": false,
+    "showContactEmail": true,
+    "showAge": true,
+    "showGender": true,
+    "showPhoneNumber": false,
+    "showFacebook": false,
+    "showTwitter": false,
+    "showLinkedIn": false,
+    "showGooglePlus": true
+  }
+}</pre>
+</div></div><div data-title="Update User" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h3 id="update-user">Update User</h3>
+<p>Update a User.</p>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>The type to convert the user to.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td>A key-value Object of properties matching the User schema.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>The type of the user.</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>The user's email address.</td>
+</tr>
+<tr>
+<td><code>emailVerified</code></td>
+<td>Whether or not the user has verified their email address.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>The user's name.</td>
+</tr>
+<tr>
+<td><code>auth0ID</code></td>
+<td>The user's ID with auth0.</td>
+</tr>
+<tr>
+<td><code>lastIP</code></td>
+<td>The last IP address the user logged in with.</td>
+</tr>
+<tr>
+<td><code>lastLoginAt</code></td>
+<td>The last time the user logged in.</td>
+</tr>
+<tr>
+<td><code>createdAt</code></td>
+<td>The time the User's account was created.</td>
+</tr>
+<tr>
+<td><code>age</code></td>
+<td>The user's age.</td>
+</tr>
+<tr>
+<td><code>gender</code></td>
+<td>The user's gender.</td>
+</tr>
+<tr>
+<td><code>contact</code></td>
+<td>The account which owns this ContentOutlet.</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td>The contact information of the user</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields.contact</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email</code></td>
+<td>The email address to contact the user with.</td>
+</tr>
+<tr>
+<td><code>phoneNumber</code></td>
+<td>The user's phone number.</td>
+</tr>
+<tr>
+<td><code>facebook</code></td>
+<td>The URL of the user's facebook profile.</td>
+</tr>
+<tr>
+<td><code>twitter</code></td>
+<td>The URL of the user's twitter profile.</td>
+</tr>
+<tr>
+<td><code>linkedIn</code></td>
+<td>The URL of the user's linkedIn profile.</td>
+</tr>
+<tr>
+<td><code>googlePlus</code></td>
+<td>The URL of the user's googlePlus profile.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>fields.settings</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>showEmail</code></td>
+<td>Whether or not to show their email on their profile.</td>
+</tr>
+<tr>
+<td><code>showContactEmail</code></td>
+<td>Whether or not to show their contact email their profile.</td>
+</tr>
+<tr>
+<td><code>showAge</code></td>
+<td>Whether or not to show their age on their profile.</td>
+</tr>
+<tr>
+<td><code>showGender</code></td>
+<td>Whether or not to show their gender on their profile.</td>
+</tr>
+<tr>
+<td><code>showPhoneNumber</code></td>
+<td>Whether or not to show their phone number on their profile.</td>
+</tr>
+<tr>
+<td><code>showFacebook</code></td>
+<td>Whether or not to show an anchor to their Facebook account on their profile.</td>
+</tr>
+<tr>
+<td><code>showTwitter</code></td>
+<td>Whether or not to show an anchor to their Twitter account on their profile.</td>
+</tr>
+<tr>
+<td><code>showLinkedIn</code></td>
+<td>Whether or not to show an anchor to their Google Plus account on their profile.</td>
+</tr>
+<tr>
+<td><code>showGooglePlus</code></td>
+<td>Whether or not to show an anchor to their Google Plus account on their profile.</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>PATCH</div>
+      <div class='pad0 code small endpoint-url'>/user</div>
+    </div>
+<h4 id="example-request-7">Example request</h4>
+<pre class='hljs'>$ curl -v -XPATCH http://localhost:3000/user \
+-H <span class="hljs-string">"Authorization: Bearer USER_TOKEN"</span> \
+-d <span class="hljs-string">'{
+  "fields": {
+    "email": "greg@example.com",
+    "age": "49",
+    "contact": {
+      "phoneNumber": "(555) 555-5554"
+    }
+  }
+}'</span></pre>
+<h4 id="example-response-7">Example response</h4>
+<pre class='hljs'>{
+  "_id": "laksdjflk3j45629384j2lk34j",
+  "type": "ContentProducer",
+  "email": "greg@example.com",
+  "emailVerified": true,
+  "name": "Bobby",
+  "auth0ID: "auth0|lkajdflkj2l3ij498hsdfnslkdf",
+  "lastIP": "135.292.49.191",
+  "lastLoginAt": "2018-02-20T01:40:05.110Z",
+  "createdAt": "2018-01-20T01:40:05.110Z",
+  "age": 49,
+  "gender": "Male",
+  "contact": {
+    "email": "bobby@example.com",
+    "phoneNumber": "(555) 555-5554",
+    "facebook": "https://facebook.com/Bobby",
+    "twitter": "https://twitter.com/Bobby",
+    "linkedIn": "https://linkedin.com/Bobby",
+    "googlePlus": "https://plus.google.com/Bobby",
+  },
+  "settings": {
+    "showEmail": false,
+    "showContactEmail": true,
+    "showAge": true,
+    "showGender": true,
+    "showPhoneNumber": false,
+    "showFacebook": false,
+    "showTwitter": false,
+    "showLinkedIn": false,
+    "showGooglePlus": true
+  }
+}</pre>
+</div></div><div data-title="Add ContentOutlet" class="keyline-top section contain clearfix "><div class="space-bottom8 col6 pad2x prose clip"><h3 id="add-contentoutlet">Add ContentOutlet</h3>
+<p>Add a ContentOutlet to a User</p>
+<p><strong>Parameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contentOutlet</code></td>
+<td>The ContentOutlet ID to add to this User.</td>
+</tr>
+</tbody>
+</table>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5"><div class='endpoint dark fill-dark round '>
+      <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>PATCH</div>
+      <div class='pad0 code small endpoint-url'>/user/co</div>
+    </div>
+<h4 id="example-request-8">Example request</h4>
+<pre class='hljs'>$ curl -v -XPATCH http://localhost:3000/user/co \
+-H <span class="hljs-string">"Authorization: Bearer USER_TOKEN"</span> \
+-d <span class="hljs-string">'{
+  "contentOutlet": "la4rdjflk3gh293866tk34j"
+}'</span></pre>
+<h4 id="example-response-8">Example response</h4>
+<pre class='hljs'>{
+  "_id": "laksdjflk3j45629384j2lk34j",
+  "type": "ContentProducer",
+  "email": "greg@example.com",
+  "emailVerified": true,
+  "name": "Bobby",
+  "auth0ID: "auth0|lkajdflkj2l3ij498hsdfnslkdf",
+  "lastIP": "135.292.49.191",
+  "lastLoginAt": "2018-02-20T01:40:05.110Z",
+  "createdAt": "2018-01-20T01:40:05.110Z",
+  "age": 49,
+  "gender": "Male",
+  "contact": {
+    "email": "bobby@example.com",
+    "phoneNumber": "(555) 555-5554",
+    "facebook": "https://facebook.com/Bobby",
+    "twitter": "https://twitter.com/Bobby",
+    "linkedIn": "https://linkedin.com/Bobby",
+    "googlePlus": "https://plus.google.com/Bobby",
+  },
+  "settings": {
+    "showEmail": false,
+    "showContactEmail": true,
+    "showAge": true,
+    "showGender": true,
+    "showPhoneNumber": false,
+    "showFacebook": false,
+    "showTwitter": false,
+    "showLinkedIn": false,
+    "showGooglePlus": true
+  },
+  "contentOutlets" : [
+    "la4rdjflk3gh293866tk34j"
+  ]
+}</pre>
+</div></div></div></div></div><div class="fixed-top space-left16"><div class="events fill-light bottom-shadow pad1 col6 pin-topright  "><div class="space-right1 small quiet inline">Show examples in:</div><div class="rounded-toggle inline short"><a class="strong active">cURL</a><a class="strong ">JS</a></div><div class="fr pad0"><a title="Display as 1 column" style="cursor:pointer" class="icon quiet caret-left pad0 fill-darken0 round"></a></div></div></div><div class="fill-dark dark bottom-shadow fixed-top pad0 width16"><a href="/" class="active space-top1 space-left1 pin-topleft icon round dark pad0 corner-logo"></a><div class="strong small pad0
+          
+          space-left4 line-height15">Leveld API Documentation</div></div></div></div><!--STOP-->
+    <script src='bundle.js'></script>
+  </body>
+</html>

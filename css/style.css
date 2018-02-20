@@ -127,7 +127,7 @@ body .prose blockquote {
 }
 
 .corner-logo {
-  background-image: url('/logo.png');
+  background-image: url('/LAN-API/logo.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30px;

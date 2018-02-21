@@ -11,17 +11,28 @@ const getUserFromToken = async (token) => {
 // GET /user
 const getUser = async (req, res, next) => {
   const token = getToken(req);
+  const { id : userID, type: userType} = req.query;
 
-  console.log(token);
   let auth = await axios.get(`${authServerIP}token?token=${token}`);
   if (auth)
     auth = auth.data;
 
-  const { token : tokenData = {}, user : userData = {} } = auth;
-  const { expires } = tokenData;
-  const { userID : id, accountType : type } = userData;
+  let tokenData, userData, expires, id, type;
 
-  let user = await axios.get(`${dbServerIP}user?id=${id}&type=${type}`);
+  if (!userID) {
+    (() => {
+      const { token = {}, user = {} } = auth;
+      const { expires : exp } = token;
+      const { userID, accountType } = user;
+      tokenData = token;
+      userData = user;
+      expires = exp;
+      id = userID;
+      type = accountType;
+    })();
+  }
+
+  let user = await axios.get(`${dbServerIP}user?id=${id ? id : userID}&type=${type ? type : userType}`);
   if (user)
     user = user.data;
 
@@ -34,7 +45,7 @@ const convertToOtherUserType = async (req, res, next) => {
   const user = await getUserFromToken(token);
   if(!user)
     throwError('APIUserError', 'Could not find user.');
-    
+
   const { type, fields = {} } = req.body;
 
   const missing = [];
@@ -54,6 +65,8 @@ const convertToOtherUserType = async (req, res, next) => {
   if (convertedUser)
     convertedUser = convertedUser.data
 
+  console.log(`${dbServerIP}user`)
+  console.log(convertedUser)
   console.log(`convertedUser._id: ${convertedUser._id} | convertedUser.type: ${convertedUser.type}`)
 
   await axios.patch(`${authServerIP}token`, {
@@ -108,7 +121,7 @@ const addContentOutlet = async (req, res, next) => {
   let updatedUser = await axios.patch(`${dbServerIP}user/co`, {
     id: user._id,
     type: user.type,
-    contentOutlet 
+    contentOutlet
   });
 
   if (updatedUser)

@@ -4,12 +4,13 @@ const { google } = require('googleapis');
 const plus = google.plus('v1');
 const OAuth2Client = google.auth.OAuth2;
 const { throwError, authServerIP, dbServerIP, googleRedirect } = require('capstone-utils');
+const {googleClientID, googleClientSecret} = require('../secret.json');
 
 const { getToken : getUserToken, getUserFromToken  } = require('./users');
 
 const oauth2Client = new OAuth2Client(
-  '660421589652-k537cl8vg3v8imub4culbjon6f20fph6.apps.googleusercontent.com',
-  'yYuc3V2fIT4DOfnZXIyhBvsh',
+  googleClientID,
+  googleClientSecret,
   googleRedirect
 );
 

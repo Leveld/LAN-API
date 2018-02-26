@@ -93,7 +93,7 @@ A Content Producer is a user that creates content on Content Outlets, such as Yo
   "email": "greg@example.com",
   "emailVerified": true,
   "name": "Bobby",
-  "auth0ID: "auth0|lkajdflkj2l3ij498hsdfnslkdf",
+  "auth0ID": "auth0|lkajdflkj2l3ij498hsdfnslkdf",
   "lastIP": "135.292.49.191",
   "lastLoginAt": "2018-02-20T01:40:05.110Z",
   "createdAt": "2018-01-20T01:40:05.110Z",

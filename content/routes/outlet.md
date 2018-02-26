@@ -40,9 +40,10 @@ axios.get('http://localhost:3000/outlet', {
   "channelLink": "https://example.com/lijfoa98sujf2k3j1lk2j",
   "owner": {
     "ownerType": "ContentProducer",
-    "ownerID": "lakjdsflkj12lkj309",
-    "lastUpdated": "2018-02-20T00:32:16.220Z"
-  }
+    "ownerID": "lakjdsflkj12lkj309"
+  },
+  "lastUpdated": "2018-02-20T00:32:16.220Z"
+
 }
 ```
 

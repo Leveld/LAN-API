@@ -438,7 +438,7 @@ $ curl -v -XPATCH $url$user/co \
 
 ```javascript
 
-axios.patch('$url$outlet', {
+axios.patch('$url$user/co', {
   contentOutlet: "ji83ik2l99s9sl2klk1fj"
   }, {
     headers: {

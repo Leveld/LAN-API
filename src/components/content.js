@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Section from './section';
 import GithubSlugger from 'github-slugger';
 import { transformURL } from '../custom';
+import variables from './variables';
 let slugger = new GithubSlugger();
 let slug = title => { slugger.reset(); return slugger.slug(title); };
 
@@ -32,27 +33,34 @@ function chunkifyAST(ast, language) {
       preview = false;
     }
     chunk.forEach(node => {
-      if (node.lang) {
-        node.lang = node.lang.toLowerCase();
-        if (node.lang.includes('-left')) {
-          node.lang = node.lang.replace('-left', '');
-          node.moveLeft = true;
-        } else {
-          node.moveLeft = node.moveLeft === true;
+      const readLangOptions = (node) => {
+        if (node.lang) {
+          node.lang = node.lang.toLowerCase();
+          if (node.lang.includes('-left')) {
+            node.lang = node.lang.replace('-left', '');
+            node.moveLeft = true;
+          } else {
+            node.moveLeft = node.moveLeft === true;
+          }
+          if (node.lang.includes('-switch')) {
+            node.lang = node.lang.replace('-switch', '');
+            node.switch = true;
+          } else {
+            node.switch = node.switch === true;
+          }
         }
-        if (node.lang.includes('-switch')) {
-          node.lang = node.lang.replace('-switch', '');
-          node.switch = true;
-        } else {
-          node.switch = node.switch === true;
-        }
-      }
+      };
+      const injectVariables = (node) => {
+        node.value = variables.replaceVariables(node.value);
+      };
       const pushNode = (node) => {
         if (node.moveLeft === true)
           left.push(node);
         else
           right.push(node);
       };
+      readLangOptions(node);
+      injectVariables(node);
       if (node.type === 'code') {
         if (node.lang === 'json' || node.lang === 'http' || node.lang === 'html') {
           pushNode(node);

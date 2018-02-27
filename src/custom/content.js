@@ -12,10 +12,12 @@ const fs = require('fs');
 
 const sections = {
   Introduction: fs.readFileSync('./content/introduction.md', 'utf8'),
-  Routes: fs.readFileSync('./content/routes/outlet.md', 'utf8') +
-          fs.readFileSync('./content/routes/coInfo.md', 'utf8') +
-          fs.readFileSync('./content/routes/coURL.md', 'utf8')  +
-          fs.readFileSync('./content/routes/user.md', 'utf8'),
+  Routes: fs.readFileSync('./content/routes/outlet.md', 'utf8')  +
+          fs.readFileSync('./content/routes/outlets.md', 'utf8') +
+          fs.readFileSync('./content/routes/coInfo.md', 'utf8')  +
+          fs.readFileSync('./content/routes/coURL.md', 'utf8')   +
+          fs.readFileSync('./content/routes/user.md', 'utf8')    +
+          fs.readFileSync('./content/routes/users.md', 'utf8'),
   Models: fs.readFileSync('./content/models/user.md', 'utf8')                +
           fs.readFileSync('./content/models/contentProducer.md', 'utf8')     +
           fs.readFileSync('./content/models/contentOutlet.md', 'utf8')       +

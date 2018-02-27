@@ -35,6 +35,7 @@
     "babelify": "^8.0.0",
     "brfs": "^1.4.2",
     "browserify": "^16.0.0",
+    "capstone-utils": "github:Leveld/LAN-Utils",
     "cssnano": "^3.4.0",
     "es6-promise": "^4.1.0",
     "eslint": "^4.1.0",
@@ -63,7 +64,7 @@
     "expect": "^22.0.5",
     "mocha": "^5.0.0",
     "to-vfile": "^2.0.0",
-    "uglify-js": "^3.0.27"
+    "uglify-es": "github:mishoo/UglifyJS2#harmony"
   },
   "config": {
     "commitizen": {

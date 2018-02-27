@@ -1,5 +1,8 @@
 import slug from 'remark-slug';
 import BananaSlug from 'github-slugger';
+// slug('Schema') // schema
+// slug.reset()
+// slug('Schema') // schema-
 
 if (!BananaSlug.prototype.changed === true) {
   BananaSlug.prototype.originalSlug = BananaSlug.prototype.slug;

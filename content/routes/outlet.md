@@ -13,7 +13,7 @@ GET /outlet?id={CONTENT_OUTLET_ID}
 #### Example request
 
 ```curl
-$ curl http://localhost:3000/outlet?id=ji83ik2l99s9sl2klk1fj \
+$ curl $url$outlet?id=ji83ik2l99s9sl2klk1fj \
 -H "Authorization: Bearer USER_TOKEN"
 ```
 

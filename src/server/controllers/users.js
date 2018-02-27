@@ -130,11 +130,29 @@ const addContentOutlet = async (req, res, next) => {
   await res.send(updatedUser);
 }
 
+// GET /users
+const getUsers = async (req, res, next) => {
+  const token = getToken(req);
+  const { type } = req.query;
+  
+  let users = await axios.get(`${dbServerIP}users`, {
+    params: {
+      type
+    }
+  });
+  
+  if (users)
+    users = users.data;
+  
+  await res.send(users);
+};
+
 module.exports = {
   getUser,
   convertToOtherUserType,
   getToken,
   getUserFromToken,
   updateUser,
-  addContentOutlet
+  addContentOutlet,
+  getUsers
 };

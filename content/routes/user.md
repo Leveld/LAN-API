@@ -416,7 +416,7 @@ axios.patch('http://localhost:3000/outlet', {
     "showLinkedIn": false,
     "showGooglePlus": true
   },
-  "contentOutlets" : [
+  "contentOutlets" : [{
     "_id": "ji83ik2l99s9sl2klk1fj",
     "channelName": "The Lame Channel",
     "channelID" : "lijfoa98sujf2k3j1lk2j",
@@ -426,7 +426,7 @@ axios.patch('http://localhost:3000/outlet', {
       "ownerType": "ContentProducer",
       "ownerID": "lakjdsflkj12lkj309"
     }
-  ]
+  }]
 }
 ```
 

@@ -33,6 +33,7 @@ function chunkifyAST(ast, language) {
     }
     chunk.forEach(node => {
       if (node.lang) {
+        node.lang = node.lang.toLowerCase();
         if (node.lang.includes('-left')) {
           node.lang = node.lang.replace('-left', '');
           node.moveLeft = true;

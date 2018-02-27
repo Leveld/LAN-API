@@ -133,7 +133,7 @@ export default class App extends React.PureComponent {
   }
   componentDidUpdate(_, prevState) {
     if (prevState.activeSection !== this.state.activeSection) {
-      // when the section changes, replace the hash <-- unnecessary due to the fact that you're clicking an anchor
+      // when the section changes, replace the hash <-- unnecessary due to the fact that you're clicking an anchor and onScrollImmediate already fixes the url
       // if (this.state && this.state.activeItem && this.state.activeItem.data && this.state.activeItem.data.id)
         // debouncedReplaceState(`#${this.state.activeItem.data.id}`);
       return;

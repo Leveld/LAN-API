@@ -8,9 +8,9 @@ Get a User.
 GET /user
 ```
 
-#### Example request
-
 >Lookup the user that USER_TOKEN belongs to.
+
+#### Example request
 
 ```curl
 $ curl http://localhost:3000/user \
@@ -26,10 +26,8 @@ axios.get('http://localhost:3000/user', {
 });
 ```
 
-
 #### Example response
 
->Lookup the user that USER_TOKEN belongs to.
 
 ```json
 {
@@ -66,9 +64,9 @@ axios.get('http://localhost:3000/user', {
 }
 ```
 
-#### Example request
-
 >Lookup a specific user.
+
+#### Example request
 
 ```curl
 $ curl http://localhost:3000/user?id=387s8dfgsldkajslkeu&type=Business \
@@ -89,8 +87,6 @@ axios.get('http://localhost:3000/user', {
 ```
 
 #### Example response
-
->Lookup a specific user.
 
 ```json
 {

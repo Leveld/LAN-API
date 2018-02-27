@@ -7,6 +7,11 @@ module.exports = (app) => {
     .get(asyncMiddleware(controllers.contentOutlet.getOutlet))
     .post(asyncMiddleware(controllers.contentOutlet.createOutlet))
     .patch(asyncMiddleware(controllers.contentOutlet.updateOutlet));
+
+  app
+    .route('/outlets')
+    .get(asyncMiddleware(controllers.contentOutlet.getOutlets))
+
   app
     .route('/outlets')
     .get(asyncMiddleware(controllers.contentOutlet.getOutlets));

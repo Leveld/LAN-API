@@ -24,7 +24,7 @@ function chunkifyAST(ast, language) {
     return chunks;
   }, [[]]).filter(chunk => chunk.length)
   .map(chunk => {
-    var left = [], right = [], title;
+    var left = [], right = [], title, id;
     if (language === 'cli') {
       language = 'bash';
     }
@@ -32,17 +32,37 @@ function chunkifyAST(ast, language) {
       preview = false;
     }
     chunk.forEach(node => {
+      if (node.lang) {
+        if (node.lang.includes('-left')) {
+          node.lang = node.lang.replace('-left', '');
+          node.moveLeft = true;
+        } else {
+          node.moveLeft = node.moveLeft === true;
+        }
+        if (node.lang.includes('-switch')) {
+          node.lang = node.lang.replace('-switch', '');
+          node.switch = true;
+        } else {
+          node.switch = node.switch === true;
+        }
+      }
+      const pushNode = (node) => {
+        if (node.moveLeft === true)
+          left.push(node);
+        else
+          right.push(node);
+      };
       if (node.type === 'code') {
         if (node.lang === 'json' || node.lang === 'http' || node.lang === 'html') {
-          right.push(node);
-        } else if (node.lang === language) {
+          pushNode(node);
+        } else if (node.lang === language || (node.moveLeft === true && node.switch === false)) {
           if (language === 'curl') {
-            right.push({ ...node, lang: 'bash'  });
+            pushNode({ ...node, lang: 'bash'  });
           } else {
-            right.push(node);
+            pushNode(node);
           }
         } else if (node.lang === 'endpoint') {
-          right.push(transformURL(node.value));
+          pushNode((transformURL(node.value)));
         } else if (node.lang === null) {
           left.push(node);
         }
@@ -52,6 +72,7 @@ function chunkifyAST(ast, language) {
         right.push(node);
       } else if (node.type === 'heading' && node.depth < 4 && !title) {
         title = node.children[0].value;
+        id = node.data ? node.data.id || '' : '';
         left.push(node);
       } else if (node.type === 'html' && node.value.match(/^<!--\s*preview\s*-->$/)) {
         preview = true;
@@ -59,7 +80,7 @@ function chunkifyAST(ast, language) {
         left.push(node);
       }
     });
-    return { left, right, title, preview, slug: slug(title) };
+    return { left, right, title, id, preview, slug: slug(title) };
   });
 }
 
@@ -77,6 +98,7 @@ export default class Content extends React.PureComponent {
         leftClassname={leftClassname}
         rightClassname={rightClassname}
         chunk={chunk}
+        // bob={console.log(ast) || console.log(language) || console.log(chunk) || console.log('')}
         key={i} />))}
     </div>);
   }

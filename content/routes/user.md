@@ -1,6 +1,6 @@
 ## Users
 
-### Get User
+### Get
 
 Get a User.
 
@@ -9,6 +9,8 @@ GET /user
 ```
 
 #### Example request
+
+>Lookup the user that USER_TOKEN belongs to.
 
 ```curl
 $ curl http://localhost:3000/user \
@@ -24,7 +26,10 @@ axios.get('http://localhost:3000/user', {
 });
 ```
 
+
 #### Example response
+
+>Lookup the user that USER_TOKEN belongs to.
 
 ```json
 {
@@ -34,7 +39,7 @@ axios.get('http://localhost:3000/user', {
   "emailVerified": true,
   "name": "Joe Smith",
   "auth0ID": "auth0|lkajdflkj2l3ij498hsdfnslkdf",
-  "lastIP": "135.292.49.191",
+  "lastIP": "135.242.49.191",
   "lastLoginAt": "2018-02-20T01:40:05.110Z",
   "createdAt": "2018-01-20T01:40:05.110Z",
   "age": 43,
@@ -61,6 +66,77 @@ axios.get('http://localhost:3000/user', {
 }
 ```
 
+#### Example request
+
+>Lookup a specific user.
+
+```curl
+$ curl http://localhost:3000/user?id=387s8dfgsldkajslkeu&type=Business \
+-H "Authorization: Bearer USER_TOKEN"
+```
+
+```javascript
+axios.get('http://localhost:3000/user', {
+  params: {
+    id: 387s8dfgsldkajslkeu,
+    type: 'Business'
+  }
+  headers: {
+    Authorization: `Bearer ${userToken}`,
+    withCredentials: true
+  }
+});
+```
+
+#### Example response
+
+>Lookup a specific user.
+
+```json
+{
+  "_id": "387s8dfgsldkajslkeu",
+  "type": "Business",
+  "email": "jack@gmail.com",
+  "emailVerified": true,
+  "name": "Jack Jackson",
+  "auth0ID": "auth0|jsdfli894l2lidfuslkd",
+  "lastIP": "20.174.121.254",
+  "lastLoginAt": "2018-02-20T01:40:05.110Z",
+  "createdAt": "2018-01-20T01:40:05.110Z",
+  "age": 37,
+  "gender": "Male",
+  "contact": {
+    "email": "jacky@example.com",
+    "phoneNumber": "(555) 555-5555",
+    "facebook": "https://facebook.com/Jacky",
+    "twitter": "https://twitter.com/Jacky",
+    "linkedIn": "https://linkedin.com/Jacky",
+    "googlePlus": "https://plus.google.com/Jacky",
+  },
+  "settings": {
+    "showEmail": false,
+    "showContactEmail": true,
+    "showAge": true,
+    "showGender": true,
+    "showPhoneNumber": false,
+    "showFacebook": false,
+    "showTwitter": false,
+    "showLinkedIn": false,
+    "showGooglePlus": true
+  },
+  "managers": []
+}
+```
+
+**Parameters**
+
+Property | Description
+---------|---------
+`id`     | (optional) The id of the user you wish to lookup.
+`type`   | (optional) The account type of the user you wish to lookup.<br>Valid `type`s (not case-sensitive): `'User'`/`'ContentProducer'`/`'Business'`/`'Manager'`
+
+If you call `GET` `/user` without an `id`, you will get the user that the `USER_TOKEN` belongs to.
+If you call `GET` `/user` with an `id`, you must provide a `type`.
 
 
 
@@ -71,7 +147,7 @@ axios.get('http://localhost:3000/user', {
 
 
 
-### Convert User
+### Convert
 
 Convert a User to another type.
 
@@ -120,7 +196,7 @@ axios.put('http://localhost:3000/user', {
   "emailVerified": true,
   "name": "Bobby",
   "auth0ID": "auth0|lkajdflkj2l3ij498hsdfnslkdf",
-  "lastIP": "135.292.49.191",
+  "lastIP": "135.242.49.191",
   "lastLoginAt": "2018-02-20T01:40:05.110Z",
   "createdAt": "2018-01-20T01:40:05.110Z",
   "age": 43,
@@ -208,7 +284,7 @@ Property           | Description
 
 
 
-### Update User
+### Update
 
 Update a User.
 
@@ -261,7 +337,7 @@ axios.patch('http://localhost:3000/outlet', {
   "emailVerified": true,
   "name": "Bobby",
   "auth0ID": "auth0|lkajdflkj2l3ij498hsdfnslkdf",
-  "lastIP": "135.292.49.191",
+  "lastIP": "135.242.49.191",
   "lastLoginAt": "2018-02-20T01:40:05.110Z",
   "createdAt": "2018-01-20T01:40:05.110Z",
   "age": 49,
@@ -364,7 +440,7 @@ PATCH /user/co
 $ curl -v -XPATCH http://localhost:3000/user/co \
 -H "Authorization: Bearer USER_TOKEN" \
 -d '{
-  "contentOutlet": "la4rdjflk3gh293866tk34j"
+  "contentOutlet": "ji83ik2l99s9sl2klk1fj"
 }'
 ```
 
@@ -392,7 +468,7 @@ axios.patch('http://localhost:3000/outlet', {
   "emailVerified": true,
   "name": "Bobby",
   "auth0ID": "auth0|lkajdflkj2l3ij498hsdfnslkdf",
-  "lastIP": "135.292.49.191",
+  "lastIP": "135.242.49.191",
   "lastLoginAt": "2018-02-20T01:40:05.110Z",
   "createdAt": "2018-01-20T01:40:05.110Z",
   "age": 49,

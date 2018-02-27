@@ -2,7 +2,7 @@
 
 Use these routes to get information on a ContentOutlet or to retrieve a url used to authenticate a new ContentOutlet.
 
-### Get ContentOutlet
+### Get
 
 Get a ContentOutlet.
 
@@ -58,7 +58,7 @@ Property | Description
 
 
 
-### Create ContentOutlet
+### Create
 
 Create a ContentOutlet.
 
@@ -150,7 +150,7 @@ Property    | Description
 
 
 
-### Update ContentOutlet
+### Update
 
 Update a ContentOutlet.
 

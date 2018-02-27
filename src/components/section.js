@@ -30,6 +30,7 @@ export default class Section extends React.PureComponent {
     let { left, right, preview } = chunk;
     return (<div
       data-title={chunk.title}
+      data-id={chunk.id || ''}
       className={`keyline-top section contain clearfix ${preview ? 'preview' : ''}`}>
       <div
         className={leftClassname}

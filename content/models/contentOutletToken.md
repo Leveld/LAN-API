@@ -1,10 +1,10 @@
-## OAuth 2.0 Tokens
+## COToken
 
-These are the OAuth 2.0 tokens required to make API calls on behalf of users.
+This model stores the OAuth 2.0 token required to make API calls on behalf of a user.
 
 ### Schema
 
-```
+```javascript-left
 {
   token: {
     token: {
@@ -27,7 +27,7 @@ These are the OAuth 2.0 tokens required to make API calls on behalf of users.
 }
 ```
 
-#### Example 
+#### Example
 
 ```json
 {

@@ -3,13 +3,9 @@ import Navigation from './navigation';
 import PropTypes from 'prop-types';
 import Content from './content';
 import RoundedToggle from './rounded_toggle';
-import GithubSlugger from 'github-slugger';
 import debounce from 'lodash.debounce';
 import { brandNames, brandClasses } from '../custom';
 import qs from 'querystring';
-
-let slugger = new GithubSlugger();
-let slug = title => { slugger.reset(); return slugger.slug(title); };
 
 let languageOptions = [
   { title: 'cURL',
@@ -25,10 +21,6 @@ let languageOptions = [
 
 let defaultLanguage = languageOptions[0];
 
-let debouncedReplaceState = debounce(hash => {
-  window.history.replaceState('', '', hash);
-}, 100);
-
 export default class App extends React.PureComponent {
   static propTypes = {
     content: PropTypes.string.isRequired,
@@ -36,10 +28,7 @@ export default class App extends React.PureComponent {
   }
   constructor(props) {
     super(props);
-    var active = 'Introduction';
-
     if (process.browser) {
-      let hash = window.location.hash.split('#').pop();
       let languageFromURL = qs.parse(window.location.search.substring(1)).language;
       let language = languageOptions.find(option => option.title === languageFromURL) ||
         defaultLanguage;
@@ -50,14 +39,7 @@ export default class App extends React.PureComponent {
         { name: 'mobile', query: window.matchMedia('(max-width: 640px)') }
       ];
       mqls.forEach(q => q.query.addListener(this.mediaQueryChanged));
-      if (hash) {
-        let headingForHash = this.props.ast.children
-          .filter(child => child.type === 'heading')
-          .find(heading => heading.data.id === hash);
-        if (headingForHash) {
-          active = headingForHash.children[0].value;
-        }
-      }
+      const [ activeItem, activeSection = 'Introduction' ] = this.loadActiveSection();
       this.state = {
         // media queryMatches
         mqls: mqls,
@@ -65,7 +47,8 @@ export default class App extends React.PureComponent {
         queryMatches: {},
         language: language,
         columnMode: 2,
-        activeSection: active,
+        activeItem,
+        activeSection,
         // for the toggle-able navigation on mobile
         showNav: false
       };
@@ -80,6 +63,23 @@ export default class App extends React.PureComponent {
         showNav: false
       };
     }
+  }
+  loadActiveSection = (setState = false) => {
+    let hash = window.location.hash.split('#').pop();
+    let activeItem, activeSection;
+    if (hash) {
+      let headingForHash = this.props.ast.children
+        .filter(child => child.type === 'heading')
+        .find(heading => heading.data.id === hash);
+      if (headingForHash) {
+        activeItem = headingForHash;
+        activeSection = activeItem.children[0].value;
+      }
+    }
+    if (setState === true)
+      this.setState({activeSection, activeItem})
+    else
+      return [activeItem, activeSection];
   }
   toggleNav = () => {
     this.setState({ showNav: !this.state.showNav });
@@ -96,9 +96,17 @@ export default class App extends React.PureComponent {
     for (var i = 0; i < sections.length; i++) {
       var rect = sections[i].getBoundingClientRect();
       if (rect.bottom > 0) {
+        const hash = sections[i].getAttribute('data-id');
+        const activeSection = sections[i].getAttribute('data-title');
+        const activeItem = this.props.ast.children
+                              .filter(child => child.type === 'heading' && child.depth < 4)
+                              .find(heading => heading.data.id === hash);
         this.setState({
-          activeSection: sections[i].getAttribute('data-title')
+          activeSection,
+          activeItem
         });
+        if (window.location.hash !== `#${hash}`)
+          window.history.replaceState('', '', `#${hash}`);
         return;
       }
     }
@@ -125,17 +133,19 @@ export default class App extends React.PureComponent {
   }
   componentDidUpdate(_, prevState) {
     if (prevState.activeSection !== this.state.activeSection) {
-      // when the section changes, replace the hash
-      debouncedReplaceState(`#${slug(this.state.activeSection)}`);
+      // when the section changes, replace the hash <-- unnecessary due to the fact that you're clicking an anchor
+      // if (this.state && this.state.activeItem && this.state.activeItem.data && this.state.activeItem.data.id)
+        // debouncedReplaceState(`#${this.state.activeItem.data.id}`);
+      return;
     } else if (prevState.language.title !== this.state.language.title ||
       prevState.columnMode !== this.state.columnMode) {
       // when the language changes, use the hash to set scroll
       window.location.hash = window.location.hash;
     }
   }
-  navigationItemClicked = activeSection => {
+  navigationItemClicked = () => {
     setTimeout(() => {
-      this.setState({ activeSection });
+      this.loadActiveSection(true);
     }, 10);
     if (!this.state.queryMatches.desktop) {
       this.toggleNav();
@@ -148,7 +158,7 @@ export default class App extends React.PureComponent {
   }
   render() {
     let ast = JSON.parse(JSON.stringify(this.props.ast));
-    let { activeSection, queryMatches, showNav, columnMode } = this.state;
+    let { activeItem, activeSection, queryMatches, showNav, columnMode } = this.state;
     let col1 = columnMode === 1 && queryMatches.desktop;
     return (<div className='container unlimiter'>
 
@@ -162,6 +172,7 @@ export default class App extends React.PureComponent {
         <Navigation
           navigationItemClicked={this.navigationItemClicked}
           activeSection={activeSection}
+          activeItem={activeItem}
           ast={ast} />
       </div>}
 
@@ -218,6 +229,7 @@ export default class App extends React.PureComponent {
               <Navigation
                 navigationItemClicked={this.navigationItemClicked}
                 activeSection={activeSection}
+                activeItem={activeItem}
                 ast={ast} />
             </div>}
           </div>}

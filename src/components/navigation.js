@@ -15,7 +15,7 @@ function getAllInSection(headings, idx) {
   var activeHeadings = [];
   for (var i = idx + 1; i < headings.length; i++) {
     if (headings[i].depth === 3) {
-      activeHeadings.push(headings[i].children[0].value);
+      activeHeadings.push(headings[i]);
     } else if (headings[i].depth === 2) {
       break;
     }
@@ -32,39 +32,29 @@ export default class Navigation extends React.PureComponent {
   render() {
     var activeHeadings = [];
     let headings = this.props.ast.children
-      .filter(child => child.type === 'heading');
+      .filter(child => child.type === 'heading' && child.depth < 4);
 
     if (this.props.activeSection) {
-
       let activeHeadingIdx = headings.findIndex(heading =>
-        heading.children[0].value === this.props.activeSection);
-      let activeHeading = headings[activeHeadingIdx];
+        JSON.stringify(heading) === JSON.stringify(this.props.activeItem));
+      let activeHeading = headings[activeHeadingIdx] || null;
 
-      if (activeHeading.depth === 3) {
-        activeHeadings = [this.props.activeSection]
-          .concat(getAllInSectionFromChild(headings, activeHeadingIdx));
-      }
+      if (activeHeading !== null) {
+        if (activeHeading.depth === 3)
+          activeHeadings = getAllInSectionFromChild(headings, activeHeadingIdx);
 
-      // this could potentially have children, try to find them
-      if (activeHeading.depth === 2) {
-        activeHeadings = [this.props.activeSection]
-          .concat(getAllInSection(headings, activeHeadingIdx));
+        if (activeHeading.depth === 2)
+          activeHeadings = getAllInSection(headings, activeHeadingIdx);
       }
     }
-
-    activeHeadings = activeHeadings.reduce((memo, heading) => {
-      memo[heading] = true;
-      return memo;
-    }, {});
 
     return (<div className='pad0x small'>
       {headings
         .map((child, i) => {
           let sectionName = child.children[0].value;
-          var active = sectionName === this.props.activeSection;
+          var active = (typeof this.props.activeItem === 'object' && this.props.activeItem !== null) ? JSON.stringify(child) === JSON.stringify(this.props.activeItem) : false;
           if (child.depth === 1) {
             return (<div key={i}
-              onClick={this.navigationItemClicked}
               className='small pad0x quiet space-top1'>{sectionName}</div>);
           } else if (child.depth === 2) {
             return (<NavigationItem
@@ -74,7 +64,7 @@ export default class Navigation extends React.PureComponent {
               active={active}
               sectionName={sectionName} />);
           } else if (child.depth === 3) {
-            if (activeHeadings.hasOwnProperty(sectionName)) {
+            if (activeHeadings.findIndex((activeChild) => JSON.stringify(child) === JSON.stringify(activeChild)) >= 0) {
               return (<div
                 key={i}
                 className='space-left1'>

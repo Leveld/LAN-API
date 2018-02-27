@@ -1,10 +1,10 @@
-## Content Outlets
+## ContentOutlet
 
-A Content Outlet is a platform that a Content Producer uses to create content, such as Youtube.
+A ContentOutlet is model which represents a platform that a ContentProducer uses to create content, such as Youtube.
 
 ### Schema
 
-```
+```javascript-left
 {
   channelName: {
     type: String,

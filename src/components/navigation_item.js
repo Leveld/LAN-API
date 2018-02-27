@@ -8,14 +8,11 @@ export default class NavigationItem extends React.PureComponent {
     onClick: PropTypes.func.isRequired,
     href: PropTypes.string.isRequired
   }
-  onClick = () => {
-    this.props.onClick(this.props.sectionName);
-  }
   render() {
     var {sectionName, href, active} = this.props;
     return (<a
       href={href}
-      onClick={this.onClick}
+      onClick={this.props.onClick}
       className={`line-height15 pad0x pad00y quiet block ${active ? 'fill-lighten0 round' : ''}`}>
       {sectionName}
     </a>);

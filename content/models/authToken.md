@@ -1,10 +1,10 @@
-## Auth0 Token
+## AuthToken
 
-This is the token required to authenticate with Auth0.
+This model stores the token for a user which has been authenticated through Auth0.
 
 ### Schema
 
-```
+```javascript-left
 {
   user: {
     userID: {
@@ -33,7 +33,7 @@ This is the token required to authenticate with Auth0.
 }
 ```
 
-#### Example 
+#### Example
 
 ```json
   "user": {

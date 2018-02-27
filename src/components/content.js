@@ -56,8 +56,8 @@ function chunkifyAST(ast, language) {
         if (node.lang === 'json' || node.lang === 'http' || node.lang === 'html') {
           pushNode(node);
         } else if (node.lang === language || (node.moveLeft === true && node.switch === false)) {
-          if (language === 'curl') {
-            pushNode({ ...node, lang: 'bash'  });
+          if (node.lang === 'curl') {
+            pushNode({ ...node, lang: 'bash' });
           } else {
             pushNode(node);
           }

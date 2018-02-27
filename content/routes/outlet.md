@@ -18,7 +18,7 @@ $ curl $url$outlet?id=ji83ik2l99s9sl2klk1fj \
 ```
 
 ```javascript
-axios.get('http://localhost:3000/outlet', {
+axios.get('$url$outlet', {
   params: {
     id: 'ji83ik2l99s9sl2klk1fj'
   },
@@ -69,7 +69,7 @@ POST /outlet
 #### Example request
 
 ```curl
-$ curl -v -XPOST http://localhost:3000/outlet \
+$ curl -v -XPOST $url$outlet \
 -H "Authorization: Bearer USER_TOKEN" \
 -d '{
   "fields": {
@@ -86,7 +86,7 @@ $ curl -v -XPOST http://localhost:3000/outlet \
 ```
 
 ```javascript
-axios.post('http://localhost:3000/outlet', {
+axios.post('$url$outlet', {
     fields: {
     channelName: 'The Channel',
     channelID: 'lijfoa98sujf2k3j1lk2j',
@@ -161,7 +161,7 @@ PATCH /outlet
 #### Example request
 
 ```curl
-$ curl -v -XPATCH http://localhost:3000/outlet \
+$ curl -v -XPATCH $url$outlet \
 -H "Authorization: Bearer USER_TOKEN" \
 -d '{
   "id": "ji83ik2l99s9sl2klk1fj",
@@ -174,7 +174,7 @@ $ curl -v -XPATCH http://localhost:3000/outlet \
 
 ```javascript
 
-axios.patch('http://localhost:3000/outlet', {
+axios.patch('$url$outlet', {
     id: 'ji83ik2l99s9sl2klk1fj',
     fields: {
       channelName: 'The Lame Channel',

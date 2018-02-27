@@ -9,12 +9,12 @@ GET /coURL
 #### Example request
 
 ```curl
-$ curl http://localhost:3000/coURL?type=google&redirect=example%2Fpath \
+$ curl %url%coURL?type=google&redirect=example%2Fpath \
 -H "Authorization: Bearer USER_TOKEN"
 ```
 
 ```javascript
-axios.get('http://localhost:3000/outlet', {
+axios.get('%url%outlet', {
   params: {
     type: 'google',
     redirect: 'example/path'
@@ -37,4 +37,4 @@ axios.get('http://localhost:3000/outlet', {
 Property   | Description
 -----------|-----------
 `type`     | The type of the Content Outlet to create.
-`redirect` | (optional) The URL to redirect the user to. URL should be relative to the frontend server root. (ie. `example/path` will redirect to `http://localhost:3000/example/path`)
+`redirect` | (optional) The URL to redirect the user to. URL should be relative to the frontend server root. (ie. `example/path` will redirect to `%url%example/path`)

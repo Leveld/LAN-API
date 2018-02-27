@@ -9,12 +9,12 @@ GET /coInfo?id={CONTENT_OUTLET_ID}
 #### Example request
 
 ```curl
-$ curl http://localhost:3000/coInfo?id=ji83ik2l99s9sl2klk1fj \
+$ curl $url$coInfo?id=ji83ik2l99s9sl2klk1fj \
 -H "Authorization: Bearer USER_TOKEN"
 ```
 
 ```javascript
-axios.get('http://localhost:3000/coInfo', {
+axios.get('$url$coInfo', {
   params: {
     id: 'ji83ik2l99s9sl2klk1fj'
   },

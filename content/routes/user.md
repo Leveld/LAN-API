@@ -11,12 +11,12 @@ GET /user
 #### Example request (the user that USER_TOKEN belongs to)
 
 ```curl
-$ curl http://localhost:3000/user \
+$ curl $url$user \
 -H "Authorization: Bearer USER_TOKEN"
 ```
 
 ```javascript
-axios.get('http://localhost:3000/user', {
+axios.get('$url$user', {
   headers: {
     Authorization: `Bearer ${userToken}`,
     withCredentials: true
@@ -65,12 +65,12 @@ axios.get('http://localhost:3000/user', {
 #### Example request (a specific user)
 
 ```curl
-$ curl http://localhost:3000/user?id=387s8dfgsldkajslkeu&type=Business \
+$ curl $url$user?id=387s8dfgsldkajslkeu&type=Business \
 -H "Authorization: Bearer USER_TOKEN"
 ```
 
 ```javascript
-axios.get('http://localhost:3000/user', {
+axios.get('$url$user', {
   params: {
     id: 387s8dfgsldkajslkeu,
     type: 'Business'
@@ -150,7 +150,7 @@ PUT /user
 #### Example request
 
 ```curl
-$ curl -v -XPUT http://localhost:3000/user \
+$ curl -v -XPUT $url$user \
 -H "Authorization: Bearer USER_TOKEN" \
 -d '{
   "type": "ContentProducer"
@@ -163,7 +163,7 @@ $ curl -v -XPUT http://localhost:3000/user \
 ```
 
 ```javascript
-axios.put('http://localhost:3000/user', {
+axios.put('$url$user', {
     type: "ContentProducer",
     "fields": {
       email: 'bob@example.com',
@@ -287,7 +287,7 @@ PATCH /user
 #### Example request
 
 ```curl
-$ curl -v -XPATCH http://localhost:3000/user \
+$ curl -v -XPATCH $url$user \
 -H "Authorization: Bearer USER_TOKEN" \
 -d '{
   "fields": {
@@ -302,7 +302,7 @@ $ curl -v -XPATCH http://localhost:3000/user \
 
 ```javascript
 
-axios.patch('http://localhost:3000/outlet', {
+axios.patch('$url$outlet', {
     fields: {
       email: 'greg@example.com',
       age: '49',
@@ -429,7 +429,7 @@ PATCH /user/co
 
 
 ```curl
-$ curl -v -XPATCH http://localhost:3000/user/co \
+$ curl -v -XPATCH $url$user/co \
 -H "Authorization: Bearer USER_TOKEN" \
 -d '{
   "contentOutlet": "ji83ik2l99s9sl2klk1fj"
@@ -438,7 +438,7 @@ $ curl -v -XPATCH http://localhost:3000/user/co \
 
 ```javascript
 
-axios.patch('http://localhost:3000/outlet', {
+axios.patch('$url$outlet', {
   contentOutlet: "ji83ik2l99s9sl2klk1fj"
   }, {
     headers: {

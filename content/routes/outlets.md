@@ -11,7 +11,7 @@ GET /outlets
 #### Example request
 
 ```curl
-$ curl http://localhost:3000/outlets \
+$ curl $url$outlets \
 -H "Authorization: Bearer USER_TOKEN"
 ```
 

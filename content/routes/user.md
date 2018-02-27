@@ -33,7 +33,7 @@ axios.get('http://localhost:3000/user', {
   "email": "joe@hotmail.com",
   "emailVerified": true,
   "name": "Joe Smith",
-  "auth0ID: "auth0|lkajdflkj2l3ij498hsdfnslkdf",
+  "auth0ID": "auth0|lkajdflkj2l3ij498hsdfnslkdf",
   "lastIP": "135.292.49.191",
   "lastLoginAt": "2018-02-20T01:40:05.110Z",
   "createdAt": "2018-01-20T01:40:05.110Z",
@@ -119,7 +119,7 @@ axios.put('http://localhost:3000/user', {
   "email": "bob@example.com",
   "emailVerified": true,
   "name": "Bobby",
-  "auth0ID: "auth0|lkajdflkj2l3ij498hsdfnslkdf",
+  "auth0ID": "auth0|lkajdflkj2l3ij498hsdfnslkdf",
   "lastIP": "135.292.49.191",
   "lastLoginAt": "2018-02-20T01:40:05.110Z",
   "createdAt": "2018-01-20T01:40:05.110Z",
@@ -260,7 +260,7 @@ axios.patch('http://localhost:3000/outlet', {
   "email": "greg@example.com",
   "emailVerified": true,
   "name": "Bobby",
-  "auth0ID: "auth0|lkajdflkj2l3ij498hsdfnslkdf",
+  "auth0ID": "auth0|lkajdflkj2l3ij498hsdfnslkdf",
   "lastIP": "135.292.49.191",
   "lastLoginAt": "2018-02-20T01:40:05.110Z",
   "createdAt": "2018-01-20T01:40:05.110Z",
@@ -371,7 +371,7 @@ $ curl -v -XPATCH http://localhost:3000/user/co \
 ```javascript
 
 axios.patch('http://localhost:3000/outlet', {
-  contentOutlet: "la4rdjflk3gh293866tk34j"
+  contentOutlet: "ji83ik2l99s9sl2klk1fj"
   }, {
     headers: {
       Authorization: `Bearer ${userToken}`,
@@ -391,7 +391,7 @@ axios.patch('http://localhost:3000/outlet', {
   "email": "greg@example.com",
   "emailVerified": true,
   "name": "Bobby",
-  "auth0ID: "auth0|lkajdflkj2l3ij498hsdfnslkdf",
+  "auth0ID": "auth0|lkajdflkj2l3ij498hsdfnslkdf",
   "lastIP": "135.292.49.191",
   "lastLoginAt": "2018-02-20T01:40:05.110Z",
   "createdAt": "2018-01-20T01:40:05.110Z",
@@ -417,7 +417,15 @@ axios.patch('http://localhost:3000/outlet', {
     "showGooglePlus": true
   },
   "contentOutlets" : [
-    "la4rdjflk3gh293866tk34j"
+    "_id": "ji83ik2l99s9sl2klk1fj",
+    "channelName": "The Lame Channel",
+    "channelID" : "lijfoa98sujf2k3j1lk2j",
+    "profilePicture": "https://example.com/image/lamePic.jpg",
+    "channelLink": "https://example.com/lijfoa98sujf2k3j1lk2j",
+    "owner": {
+      "ownerType": "ContentProducer",
+      "ownerID": "lakjdsflkj12lkj309"
+    }
   ]
 }
 ```

@@ -145,6 +145,17 @@ const updateOutlet = async (req, res, next) => {
   await res.send(outlet);
 };
 
+// GET /outlets
+const getOutlets = async (req, res, next) => {
+  const token = getToken(req);
+  
+  let outlets = await axios.get(`${dbServerIP}outlets`);
+  
+  if (outlets)
+    outlets = outlets.data;
+  
+	await res.send(outlets);
+};
 
 module.exports = {
   getOutlet,
@@ -152,5 +163,6 @@ module.exports = {
   updateOutlet,
   getOutletToken,
   getContentOutletInfo,
-  generateURL
+  generateURL,
+  getOutlets
 };

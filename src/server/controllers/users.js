@@ -1,11 +1,6 @@
 const axios = require('axios');
 
 const { apiServerIP, authServerIP, dbServerIP, throwError } = require('capstone-utils');
-const getUserFromToken = async (token) => {
-  const user = await axios.get(`${apiServerIP}user`, { headers: { Authorization: `Bearer ${token}`}, withCredentials: true });
-  if (user)
-    return user.data;
-};
 
 // GET /user
 const getUser = async (req, res, next) => {
@@ -38,6 +33,35 @@ const getUser = async (req, res, next) => {
   await res.send(user);
 };
 
+const getUserMiddleware = async (req, res, next) => {
+  const token = req.authToken;
+  let auth = await axios.get(`${authServerIP}token?token=${token}`);
+  if (auth)
+    auth = auth.data;
+  const { userID } = auth;
+
+  let tokenData, userData, expires, id, type;
+
+  if (!userID) {
+    (() => {
+      const { token = {}, user = {} } = auth;
+      const { expires : exp } = token;
+      const { userID, accountType } = user;
+      tokenData = token;
+      userData = user;
+      expires = exp;
+      id = userID;
+      type = accountType;
+    })();
+  }
+
+  let user = await axios.get(`${dbServerIP}user?id=${id ? id : userID}&type=${type ? type : userType}`);
+  if (user)
+    user = user.data;
+
+  return user;
+};
+
 // PUT /user
 const convertToOtherUserType = async (req, res, next) => {
   const token = req.authToken;
@@ -46,7 +70,8 @@ const convertToOtherUserType = async (req, res, next) => {
     throwError('APIUserError', 'Could not find user.');
 
   const { type, fields = {} } = req.body;
-
+  console.log('inside put user')
+  console.log(type)
   const missing = [];
 
   if (type == null)
@@ -150,5 +175,6 @@ module.exports = {
   convertToOtherUserType,
   updateUser,
   addContentOutlet,
-  getUsers
+  getUsers,
+  getUserMiddleware
 };

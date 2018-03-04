@@ -113,7 +113,6 @@ module.exports = {
   getOutlet,
   createOutlet,
   updateOutlet,
-  getOutletToken,
   getContentOutletInfo,
   generateURL,
   getOutlets

@@ -30,7 +30,8 @@ const getTokenAndUser = async (req, res, next) => {
     if (user)
       req.authedUser = user;
   } catch (error) {
-    throwError('APIAuthenticationError', 'Invalid Authorization Token', 403);
+    console.log(error.response.data);
+    throwError('APIAuthenticationError', `Invalid Authorization Token '${token}'`, 403);
   }
   console.log(`authToken: ${req.authToken}`);
   console.log(`authedUser: ${JSON.stringify(req.authedUser)}`);

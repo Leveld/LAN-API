@@ -1,38 +1,11 @@
 const axios = require('axios');
-const base64 = require('base64-url');
-const { google } = require('googleapis');
-const plus = google.plus('v1');
-const OAuth2Client = google.auth.OAuth2;
 const { throwError, authServerIP, dbServerIP } = require('capstone-utils');
-
-const { getToken : getUserToken, getUserFromToken  } = require('./users');
-
-const oauth2Client = new OAuth2Client(
-  '660421589652-k537cl8vg3v8imub4culbjon6f20fph6.apps.googleusercontent.com',
-  'yYuc3V2fIT4DOfnZXIyhBvsh',
-  `http://localhost:3002/goauth`
-);
-
-google.options({ auth: oauth2Client });
-
-const getOutletToken = async (contentOutlet) => {
-  let token = await axios.get(`${authServerIP}cotoken`, {
-    params: {
-      contentOutlet
-    }
-  });
-
-  if (!token || !token.data || !token.data.token)
-    throwError('DBContentOutlet', 'No token found for specified contentOutlet');
-
-  token = token.data;
-  return token.token;
-};
+const cachios = require('cachios');
 
 // GET /coURL
 const generateURL = async (req, res, next) => {
   const { type = '', redirect = '' } = req.query;
-  const user = await getUserFromToken(getUserToken(req));
+  const user = req.authedUser;
 
   let url = await axios.get(`${authServerIP}coURL`, {
     params: {
@@ -51,45 +24,29 @@ const generateURL = async (req, res, next) => {
 
 // GET /coInfo
 const getContentOutletInfo = async (req, res, next) => {
-  // call getOutletToken to get access token
-  const { id } = req.query;
-  const tokens = await getOutletToken(id);
-  // call setCredentials on the OAuth2Client object with the token
-  oauth2Client.setCredentials(tokens);
-  const youtube = google.youtube({
-    version: 'v3'
-  });
-  const data = await youtube.channels.list({
-    "part": "snippet",
-    "mine": "true"
+  const { id, startDate, endDate } = req.query;
+
+  let outletInfo = await cachios.get(`${dbServerIP}coInfo`, {
+    ttl: 300,
+    params: {
+      id,
+      startDate,
+      endDate
+    },
   });
 
-  const channelId = data.data.items[0].id;
-  const channelLink = `https://www.youtube.com/channel/${channelId}`;
-  const profilePicture = data.data.items[0].snippet.thumbnails.default.url;
-  const channelName = data.data.items[0].snippet.localized.title;
-  const channelInfo = {
-    channelName,
-    profilePicture,
-    channelLink
-  }
+  if (!outletInfo)
+    outletInfo = null;
+  else
+    outletInfo = outletInfo.data;
 
-  return await res.send({ channelInfo });
-}
+  await res.send(outletInfo);
+};
 
 // GET /outlet
 const getOutlet = async (req, res, next) => {
-  const token = getUserToken(req);
-  if (!token)
-    throwError('APIAuthenticationError', 'Missing Authentication');
-
+  const token = req.authToken;
   const { id } = req.query;
-
-  let contentToken = null;
-
-  try {
-    contentToken = await getOutletToken(id);
-  } catch (error) {}
 
   let outlet = await axios.get(`${dbServerIP}cotoken`, {
     params: {
@@ -102,16 +59,16 @@ const getOutlet = async (req, res, next) => {
 
   outlet = outlet.data;
 
-  Object.assign(outlet, { accessToken: contentToken });
-
   await res.send(outlet);
 };
 
 // POST /outlet
 const createOutlet = async (req, res, next) => {
   const { fields } = req.body;
+
   if (typeof fields !== 'object')
-    throwError('DBContentOutlet', `Missing parameter 'fields'`);
+    throwError('APIContentOutletError', `Missing parameter 'fields'`);
+
   const outlet = axios.post(`${dbServerIP}cotoken`, {
     fields
   });
@@ -127,10 +84,12 @@ const createOutlet = async (req, res, next) => {
 // PATCH /outlet
 const updateOutlet = async (req, res, next) => {
   const { id, fields } = req.body;
+
   if (typeof id !== 'string')
-    throwError('DBContentOutlet', `Missing parameter 'id'`);
+    throwError('APIContentOutletError', `Missing parameter 'id'`);
   if (typeof fields !== 'object')
-    throwError('DBContentOutlet', `Missing parameter 'fields'`);
+    throwError('APIContentOutletError', `Missing parameter 'fields'`);
+
   const outlet = axios.patch(`${dbServerIP}cotoken`, {
     id,
     fields
@@ -144,12 +103,21 @@ const updateOutlet = async (req, res, next) => {
   await res.send(outlet);
 };
 
+// GET /outlets
+const getOutlets = async (req, res, next) => {
+  let outlets = await axios.get(`${dbServerIP}outlets`);
+
+  if (outlets)
+    outlets = outlets.data;
+
+	await res.send(outlets);
+};
 
 module.exports = {
   getOutlet,
   createOutlet,
   updateOutlet,
-  getOutletToken,
   getContentOutletInfo,
-  generateURL
+  generateURL,
+  getOutlets
 };

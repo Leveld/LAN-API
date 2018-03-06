@@ -1,16 +1,10 @@
 const axios = require('axios');
 
 const { apiServerIP, authServerIP, dbServerIP, throwError } = require('capstone-utils');
-const getToken = (req) => req.header('Authorization') ? req.header('Authorization').split('Bearer ').splice(0).join(' ').trim() : undefined;
-const getUserFromToken = async (token) => {
-  const user = await axios.get(`${apiServerIP}user`, { headers: { Authorization: `Bearer ${token}`}, withCredentials: true });
-  if (user)
-    return user.data;
-};
 
 // GET /user
 const getUser = async (req, res, next) => {
-  const token = getToken(req);
+  const token = req.authToken;
   const { id : userID, type: userType} = req.query;
 
   let auth = await axios.get(`${authServerIP}token?token=${token}`);
@@ -39,15 +33,45 @@ const getUser = async (req, res, next) => {
   await res.send(user);
 };
 
+const getUserMiddleware = async (req, res, next) => {
+  const token = req.authToken;
+  let auth = await axios.get(`${authServerIP}token?token=${token}`);
+  if (auth)
+    auth = auth.data;
+  const { userID } = auth;
+
+  let tokenData, userData, expires, id, type;
+
+  if (!userID) {
+    (() => {
+      const { token = {}, user = {} } = auth;
+      const { expires : exp } = token;
+      const { userID, accountType } = user;
+      tokenData = token;
+      userData = user;
+      expires = exp;
+      id = userID;
+      type = accountType;
+    })();
+  }
+
+  let user = await axios.get(`${dbServerIP}user?id=${id ? id : userID}&type=${type ? type : userType}`);
+  if (user)
+    user = user.data;
+
+  return user;
+};
+
 // PUT /user
 const convertToOtherUserType = async (req, res, next) => {
-  const token = getToken(req);
-  const user = await getUserFromToken(token);
+  const token = req.authToken;
+  const user = req.authedUser;
   if(!user)
     throwError('APIUserError', 'Could not find user.');
 
   const { type, fields = {} } = req.body;
-
+  console.log('inside put user')
+  console.log(type)
   const missing = [];
 
   if (type == null)
@@ -89,8 +113,8 @@ const updateUser = async (req, res, next) => {
   if(typeof fields !== 'object')
     throwError('APIUserError', 'Must provide fields to update.');
 
-  const token = getToken(req);
-  const user = await getUserFromToken(token);
+  const token = req.authToken;
+  const user = req.authedUser;
   if(!user)
     throwError('APIUserError', 'Could not find user.');
 
@@ -108,13 +132,13 @@ const updateUser = async (req, res, next) => {
 
 // PATCH /user/co
 const addContentOutlet = async (req, res, next) => {
+  const token = req.authToken;
   const { contentOutlet } = req.body;
 
   if(typeof contentOutlet !== 'string')
     throwError('APIUserError', 'Must provide contentOutet id');
 
-  const token = getToken(req);
-  const user = await getUserFromToken(token);
+  const user = req.authedUser;
   if(!user)
     throwError('APIUserError', 'Could not find user.');
 
@@ -130,11 +154,27 @@ const addContentOutlet = async (req, res, next) => {
   await res.send(updatedUser);
 }
 
+// GET /users
+const getUsers = async (req, res, next) => {
+  const { type } = req.query;
+
+  let users = await axios.get(`${dbServerIP}users`, {
+    params: {
+      type
+    }
+  });
+
+  if (users)
+    users = users.data;
+
+  await res.send(users);
+};
+
 module.exports = {
   getUser,
   convertToOtherUserType,
-  getToken,
-  getUserFromToken,
   updateUser,
-  addContentOutlet
+  addContentOutlet,
+  getUsers,
+  getUserMiddleware
 };

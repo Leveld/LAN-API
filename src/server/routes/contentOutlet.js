@@ -9,6 +9,14 @@ module.exports = (app) => {
     .patch(asyncMiddleware(controllers.contentOutlet.updateOutlet));
 
   app
+    .route('/outlets')
+    .get(asyncMiddleware(controllers.contentOutlet.getOutlets))
+
+  app
+    .route('/outlets')
+    .get(asyncMiddleware(controllers.contentOutlet.getOutlets));
+
+  app
     .route('/coInfo')
     .get(asyncMiddleware(controllers.contentOutlet.getContentOutletInfo));
 

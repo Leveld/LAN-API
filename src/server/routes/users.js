@@ -7,6 +7,11 @@ module.exports = (app) => {
     .get(asyncMiddleware(controllers.users.getUser))
     .put(asyncMiddleware(controllers.users.convertToOtherUserType))
     .patch(asyncMiddleware(controllers.users.updateUser));
+  
+  app
+    .route('/users')
+    .get(asyncMiddleware(controllers.users.getUsers));
+    
     
   app
     .route('/user/co')

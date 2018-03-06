@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { throwError, authServerIP, dbServerIP } = require('capstone-utils');
+const cachios = require('cachios');
 
 // GET /coURL
 const generateURL = async (req, res, next) => {
@@ -23,12 +24,15 @@ const generateURL = async (req, res, next) => {
 
 // GET /coInfo
 const getContentOutletInfo = async (req, res, next) => {
-  const { id } = req.query;
+  const { id, startDate, endDate } = req.query;
 
-  let outletInfo = await axios.get(`${dbServerIP}coInfo`, {
+  let outletInfo = await cachios.get(`${dbServerIP}coInfo`, {
+    ttl: 300,
     params: {
-      id
-    }
+      id,
+      startDate,
+      endDate
+    },
   });
 
   if (!outletInfo)

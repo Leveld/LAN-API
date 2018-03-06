@@ -1,2 +1,3 @@
-# LAN-API
-API backend server for the Leveld Ad Network
+# Leveld API Docs
+
+ [View Here](https://leveld.github.io/LAN-API/)

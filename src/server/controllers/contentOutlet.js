@@ -11,7 +11,7 @@ const generateURL = async (req, res, next) => {
     params: {
       type,
       redirect,
-      userID: user._id,
+      userID: user.id,
       userType: user.type
     }
   });

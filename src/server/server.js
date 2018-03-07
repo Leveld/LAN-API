@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
+const cachios = require('cachios');
 const { throwError, asyncMiddleware, apiServerIP, authServerIP } = require('capstone-utils');
 const { getUser } = require('./controllers/users');
 const routes = require('./routes');
@@ -21,6 +22,11 @@ app.use(bodyParser.json());
 
 const getTokenAndUser = async (req, res, next) => {
   req.authToken = req.header('Authorization') ? req.header('Authorization').split('Bearer ').splice(0).join(' ').trim() : null;
+  // sketchy but we gotta do it for now :/
+  if (req.path === '/clearCache') {
+    cachios.cache.flushAll()
+    return await res.send('cleared');
+  }
   if (req.authToken === null)
     throwError('APIAuthenticationError', 'Missing Authorization Token', 403);
   try {

@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
-const { throwError, asyncMiddleware, apiServerIP } = require('capstone-utils');
-const { getUserMiddleware } = require('./controllers/users');
+const { throwError, asyncMiddleware, apiServerIP, authServerIP } = require('capstone-utils');
+const { getUser } = require('./controllers/users');
 const routes = require('./routes');
 
 const PORT = process.env.PORT || '3001';
@@ -21,17 +21,15 @@ app.use(bodyParser.json());
 
 const getTokenAndUser = async (req, res, next) => {
   req.authToken = req.header('Authorization') ? req.header('Authorization').split('Bearer ').splice(0).join(' ').trim() : null;
-  console.log(req.authToken);
   if (req.authToken === null)
     throwError('APIAuthenticationError', 'Missing Authorization Token', 403);
   try {
-    //const user = await axios.get(`${apiServerIP}user`, { headers: { Authorization: `Bearer ${req.authToken}`}, withCredentials: true });
-    const user = await getUserMiddleware(req, res, next);
+    const user = await getUser(req);
     if (user)
       req.authedUser = user;
   } catch (error) {
     console.log(error.response.data);
-    throwError('APIAuthenticationError', `Invalid Authorization Token '${token}'`, 403);
+    throwError('APIAuthenticationError', `Invalid Authorization Token '${req.authToken}'`, 403);
   }
   console.log(`authToken: ${req.authToken}`);
   console.log(`authedUser: ${JSON.stringify(req.authedUser)}`);

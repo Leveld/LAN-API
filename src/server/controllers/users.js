@@ -55,7 +55,7 @@ const convertToOtherUserType = async (req, res, next) => {
   let convertedUser = await axios.put(`${dbServerIP}user`, {
     email: user.email,
     type,
-    fields
+    fields: Object.assign({}, user, fields)lakjdflkajsldkfjlskjd
   });
 
   if (convertedUser)

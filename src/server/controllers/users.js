@@ -8,7 +8,7 @@ const getUser = async (req, res, next) => {
   const token = req.authToken;
   const { id : userID, type: userType} = req.query;
 
-  let auth = await cachios.get(`${authServerIP}token?token=${token}`, { ttl: 10});
+  let auth = await cachios.get(`${authServerIP}token?token=${token}`, { ttl: 10 });
   if (auth)
     auth = auth.data;
 
@@ -27,7 +27,7 @@ const getUser = async (req, res, next) => {
     })();
   }
 
-  let user = await axios.get(`${dbServerIP}user?id=${id ? id : userID}&type=${type ? type : userType}`);
+  let user = await cachios.get(`${dbServerIP}user?id=${id ? id : userID}&type=${type ? type : userType}`, { ttl: 10 });
   if (user)
     user = user.data;
 
@@ -70,6 +70,11 @@ const convertToOtherUserType = async (req, res, next) => {
       }
     }
   });
+
+  // clear the WHOLE CACHE after a user is converted
+  // it would be better to set up different caches for different things
+  // in the future
+  cachios.cache.flushAll();
 
   await res.send(convertedUser);
 };

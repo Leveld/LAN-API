@@ -53,7 +53,7 @@ A ContentOutlet is model which represents a platform that a ContentProducer uses
 }
 ```
 
-  **Fields**
+**Fields**
 
 Property         | Description
 -----------------|-----------------
@@ -63,7 +63,7 @@ Property         | Description
 `channelLink`    | A URL pointing to the ContentOutlet, pulled from the Youtube API.
 `owner`          | The account which owns this ContentOutlet.
 
- - **Fields.owner**
+  - **Fields.owner**
 
 Property    | Description
 ------------|------------

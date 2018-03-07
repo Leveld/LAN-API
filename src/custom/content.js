@@ -12,15 +12,17 @@ const fs = require('fs');
 
 const sections = {
   Introduction: fs.readFileSync('./content/introduction.md', 'utf8'),
-  Routes: fs.readFileSync('./content/routes/outlet.md', 'utf8')   +
-          fs.readFileSync('./content/routes/outlets.md', 'utf8')  +
-          fs.readFileSync('./content/routes/coInfo.md', 'utf8')   +
-          fs.readFileSync('./content/routes/coURL.md', 'utf8')    +
-          fs.readFileSync('./content/routes/user.md', 'utf8')     +
-          fs.readFileSync('./content/routes/users.md', 'utf8')    +
-          fs.readFileSync('./content/routes/user-co.md', 'utf8')  +
+  Routes: fs.readFileSync('./content/routes/outlet.md', 'utf8')    +
+          fs.readFileSync('./content/routes/outlets.md', 'utf8')   +
+          fs.readFileSync('./content/routes/coInfo.md', 'utf8')    +
+          fs.readFileSync('./content/routes/coURL.md', 'utf8')     +
+          fs.readFileSync('./content/routes/user.md', 'utf8')      +
+          fs.readFileSync('./content/routes/users.md', 'utf8')     +
+          fs.readFileSync('./content/routes/user-co.md', 'utf8')   +
           fs.readFileSync('./content/routes/campaigns.md', 'utf8') +
-          fs.readFileSync('./content/routes/contracts.md', 'utf8'),
+          fs.readFileSync('./content/routes/contracts.md', 'utf8') +
+          fs.readFileSync('./content/routes/messages.md', 'utf8')  +
+          fs.readFileSync('./content/routes/conversations.md', 'utf8'),
   Models: fs.readFileSync('./content/models/user.md', 'utf8')                +
           fs.readFileSync('./content/models/contentProducer.md', 'utf8')     +
           fs.readFileSync('./content/models/contentOutlet.md', 'utf8')       +
@@ -29,7 +31,9 @@ const sections = {
           fs.readFileSync('./content/models/campaign.md', 'utf8')            +
           fs.readFileSync('./content/models/contract.md', 'utf8')            +
           fs.readFileSync('./content/models/authToken.md', 'utf8')           +
-          fs.readFileSync('./content/models/contentOutletToken.md', 'utf8')
+          fs.readFileSync('./content/models/contentOutletToken.md', 'utf8')  +
+          fs.readFileSync('./content/models/message.md', 'utf8')           +
+          fs.readFileSync('./content/models/conversation.md', 'utf8')
 };
 
 module.exports = (

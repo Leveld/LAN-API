@@ -62,7 +62,7 @@ A ContentProducer is a user that creates content on content outlets such as Yout
 }
 ```
 
- **Fields**
+**Fields**
 
 Property         | Description
 -----------------|----------------

@@ -13,7 +13,7 @@ GET /outlet?id={CONTENT_OUTLET_ID}
 #### Example request
 
 ```curl
-$ curl $url$outlet?id=ji83ik2l99s9sl2klk1fj \
+$ curl \$url$outlet?id=ji83ik2l99s9sl2klk1fj \
 -H "Authorization: Bearer USER_TOKEN"
 ```
 
@@ -88,13 +88,14 @@ $ curl -v -XPOST $url$outlet \
 ```javascript
 axios.post('$url$outlet', {
     fields: {
-    channelName: 'The Channel',
-    channelID: 'lijfoa98sujf2k3j1lk2j',
-    profilePicture: 'https://example.com/image/lakjsdlfkj.jpg',
-    channelLink: 'https://example.com/lijfoa98sujf2k3j1lk2j',
-    owner: {
-      ownerType: 'ContentProducer',
-      ownerID: 'lakjdsflkj12lkj309'
+      channelName: 'The Channel',
+      channelID: 'lijfoa98sujf2k3j1lk2j',
+      profilePicture: 'https://example.com/image/lakjsdlfkj.jpg',
+      channelLink: 'https://example.com/lijfoa98sujf2k3j1lk2j',
+      owner: {
+        ownerType: 'ContentProducer',
+        ownerID: 'lakjdsflkj12lkj309'
+      }
     }
   }, {
     headers: {

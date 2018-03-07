@@ -79,7 +79,7 @@ POST /campaign
 #### Example request
 
 ```curl
-$ curl -v -XPOST $url$outlet \
+$ curl -v -XPOST $url$campaign \
 -H "Authorization: Bearer USER_TOKEN" \
 -d '{
   "fields": {
@@ -112,30 +112,31 @@ $ curl -v -XPOST $url$outlet \
 ```
 
 ```javascript
-axios.post('$url$outlet', {
-  fields: {
-    contracts: ["dksaj439dszxck93", "sdm29sjdka3fs"],
-    status: "Active",
-    images: [],
-    preferredApplicant: {
-      coType: "YouTube",
-      minViews: 10000,
-      minSubscribers: 5000,
-      industry: "Gaming"
-    },
-    owner: {
-      ownerType: "Business",
-      ownerID: "lakjdsflkj12lkj309"
-    },
-    contractTemplate: {
-      payout: {
-        amount: 500,
-        payoutType: "Monthly"
-      }
-      contractLength : 21,
-      advertiser: {
-        advertiserType: "Business",
-        advertiserID: "lakjdsflkj12lkj309"
+axios.post('$url$campaign', {
+    fields: {
+      contracts: ["dksaj439dszxck93", "sdm29sjdka3fs"],
+      status: "Active",
+      images: [],
+      preferredApplicant: {
+        coType: "YouTube",
+        minViews: 10000,
+        minSubscribers: 5000,
+        industry: "Gaming"
+      },
+      owner: {
+        ownerType: "Business",
+        ownerID: "lakjdsflkj12lkj309"
+      },
+      contractTemplate: {
+        payout: {
+          amount: 500,
+          payoutType: "Monthly"
+        }
+        contractLength : 21,
+        advertiser: {
+          advertiserType: "Business",
+          advertiserID: "lakjdsflkj12lkj309"
+        }
       }
     }
   }, {

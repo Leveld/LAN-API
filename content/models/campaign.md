@@ -86,10 +86,11 @@
   rules: [{
     type: String
   }]
-}, { timestamps: true });
+}
 ```
 
 #### Example Campaign
+
 ```json
 {
   "_id": "rnf5sl9976kwec8k1fj",
@@ -122,7 +123,7 @@
 }
 ```
 
- - **Fields**
+**Fields**
 
 Property             | Description
 ---------------------|-----------------
@@ -143,14 +144,14 @@ Property             | Description
 `industry`           | The industry to Content Outlet belongs to. For example, gaming or fashion.
 
 
- - **Fields.owner**
+  - **Fields.owner**
 
 Property    | Description
 ------------|------------
 `ownerType` | The type of account this ContentOutlet belongs to.
 `ownerID`   | The ID of the account this ContentOutlet belongs to.
 
- - **Fields.contractTemplate**
+  - **Fields.contractTemplate**
 
 Property                    | Description
 ----------------------------|------------

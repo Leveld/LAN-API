@@ -39,14 +39,14 @@ This model stores the OAuth 2.0 token required to make API calls on behalf of a 
   "contentOutlet": "ji83ik2l99s9sl2klk1fj"
 }
 ```
-  **Fields**
+**Fields**
 
 Property         | Description
 -----------------|-----------------
 `token`          | The OAuth 2.0 tokens
 `contentOutlet`  | The ID of the Content Outlet these tokens are associated with.
 
-  **Fields.token**
+  - **Fields.token**
 
 Property         | Description
 -----------------|-----------------

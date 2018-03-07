@@ -145,7 +145,7 @@ Property        | Description
 `contact`       | The account which owns this ContentOutlet.
 `settings`      | The contact information of the user
 
- - **Fields.contact**
+  - **Fields.contact**
 
 Property      | Description
 --------------|--------------
@@ -157,7 +157,7 @@ Property      | Description
 `googlePlus`  | The URL of the user's googlePlus profile.
 
 
- - **Fields.settings**
+  - **Fields.settings**
 
 Property           | Description
 -------------------|-------------------

@@ -48,14 +48,14 @@ This model stores the token for a user which has been authenticated through Auth
 }
 ```
 
-  **Fields**
+**Fields**
 
 Property         | Description
 -----------------|-----------------
 `user`           | The user associated with the token.
 `token`          | The Auth0 token.
 
-  **Fields.user**
+  - **Fields.user**
 
 Property         | Description
 -----------------|-----------------
@@ -64,7 +64,7 @@ Property         | Description
 `emailVerified`  | Whether or not the user has verified their email address.
 
 
-  **Fields.token**
+  - **Fields.token**
 
 Property         | Description
 -----------------|-----------------

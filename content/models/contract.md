@@ -20,7 +20,7 @@
     },
     payoutType: {
       type: String,
-      enum: ['Per Video', 'Daily', 'Weekly', 'Monthly', 'Bi-Weekly', 
+      enum: ['Per Video', 'Daily', 'Weekly', 'Monthly', 'Bi-Weekly',
             'Monthly', 'On Completion'],
       required: true
     }
@@ -56,8 +56,7 @@
     enum: ['Active', 'Inactive', 'Frozen', 'Terminated', 'Closed', 'Completed'],
     default: 'Inactive'
   }
-}, { timestamps: true });
-
+}
 ```
 
 #### Example Contract

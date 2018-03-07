@@ -72,7 +72,7 @@ POST /contract
 #### Example request
 
 ```curl
-$ curl -v -XPOST $url$outlet \
+$ curl -v -XPOST $url$contract \
 -H "Authorization: Bearer USER_TOKEN" \
 -d '{
   "fields": {
@@ -97,7 +97,7 @@ $ curl -v -XPOST $url$outlet \
 ```
 
 ```javascript
-axios.post('$url$outlet', {
+axios.post('$url$contract', {
     fields: {
       name: "Name of Contract",
       description: "Description of Contract",
@@ -115,11 +115,12 @@ axios.post('$url$outlet', {
         contentProducerID: "akjd9qsakdm2"
       },
       status: "Active",
-    }, {
-    headers: {
-      Authorization: `Bearer ${userToken}`,
-      withCredentials: true
     }
+  }, {
+  headers: {
+    Authorization: `Bearer ${userToken}`,
+    withCredentials: true
+  }
 });
 ```
 

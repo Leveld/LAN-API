@@ -24,9 +24,10 @@ const getTokenAndUser = async (req, res, next) => {
   req.authToken = req.header('Authorization') ? req.header('Authorization').split('Bearer ').splice(0).join(' ').trim() : null;
   // sketchy but we gotta do it for now :/
   if (req.path === '/clearCache') {
-    cachios.cache.flushAll()
+    cachios.cache.flushAll();
     return await res.send('cleared');
   }
+  console.log(`Received request from ${req.authToken}`);
   if (req.authToken === null)
     throwError('APIAuthenticationError', 'Missing Authorization Token', 403);
   try {
@@ -39,7 +40,7 @@ const getTokenAndUser = async (req, res, next) => {
   }
   console.log(`authToken: ${req.authToken}`);
   console.log(`authedUser: ${JSON.stringify(req.authedUser)}`);
-  next();
+  return next();
 };
 
 app.use(asyncMiddleware(getTokenAndUser));

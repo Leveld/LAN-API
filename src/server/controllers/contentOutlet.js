@@ -27,7 +27,7 @@ const getContentOutletInfo = async (req, res, next) => {
   const { id, startDate, endDate } = req.query;
 
   let outletInfo = await cachios.get(`${dbServerIP}coInfo`, {
-    ttl: 300,
+    ttl: 60 * 30,
     params: {
       id,
       startDate,
@@ -110,7 +110,7 @@ const getOutlets = async (req, res, next) => {
   if (outlets)
     outlets = outlets.data;
 
-	await res.send(outlets);
+  await res.send(outlets);
 };
 
 module.exports = {

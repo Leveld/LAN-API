@@ -1,4 +1,5 @@
 const axios = require('axios');
+const cachios = require('cachios');
 
 const { apiServerIP, authServerIP, dbServerIP, throwError } = require('capstone-utils');
 
@@ -7,13 +8,13 @@ const getUser = async (req, res, next) => {
   const token = req.authToken;
   const { id : userID, type: userType} = req.query;
 
-  let auth = await axios.get(`${authServerIP}token?token=${token}`);
+  let auth = await cachios.get(`${authServerIP}token?token=${token}`, { ttl: 10});
   if (auth)
     auth = auth.data;
 
   let tokenData, userData, expires, id, type;
 
-  if (!userID) {
+  if (!userID || !res) {
     (() => {
       const { token = {}, user = {} } = auth;
       const { expires : exp } = token;
@@ -30,35 +31,8 @@ const getUser = async (req, res, next) => {
   if (user)
     user = user.data;
 
-  await res.send(user);
-};
-
-const getUserMiddleware = async (req, res, next) => {
-  const token = req.authToken;
-  let auth = await axios.get(`${authServerIP}token?token=${token}`);
-  if (auth)
-    auth = auth.data;
-  const { userID } = auth;
-
-  let tokenData, userData, expires, id, type;
-
-  if (!userID) {
-    (() => {
-      const { token = {}, user = {} } = auth;
-      const { expires : exp } = token;
-      const { userID, accountType } = user;
-      tokenData = token;
-      userData = user;
-      expires = exp;
-      id = userID;
-      type = accountType;
-    })();
-  }
-
-  let user = await axios.get(`${dbServerIP}user?id=${id ? id : userID}&type=${type ? type : userType}`);
-  if (user)
-    user = user.data;
-
+  if (res)
+    await res.send(user);
   return user;
 };
 
@@ -70,8 +44,6 @@ const convertToOtherUserType = async (req, res, next) => {
     throwError('APIUserError', 'Could not find user.');
 
   const { type, fields = {} } = req.body;
-  console.log('inside put user')
-  console.log(type)
   const missing = [];
 
   if (type == null)
@@ -88,10 +60,6 @@ const convertToOtherUserType = async (req, res, next) => {
 
   if (convertedUser)
     convertedUser = convertedUser.data
-
-  console.log(`${dbServerIP}user`)
-  console.log(convertedUser)
-  console.log(`convertedUser._id: ${convertedUser._id} | convertedUser.type: ${convertedUser.type}`)
 
   await axios.patch(`${authServerIP}token`, {
     token,
@@ -143,7 +111,7 @@ const addContentOutlet = async (req, res, next) => {
     throwError('APIUserError', 'Could not find user.');
 
   let updatedUser = await axios.patch(`${dbServerIP}user/co`, {
-    id: user._id,
+    id: user.id,
     type: user.type,
     contentOutlet
   });
@@ -175,6 +143,5 @@ module.exports = {
   convertToOtherUserType,
   updateUser,
   addContentOutlet,
-  getUsers,
-  getUserMiddleware
+  getUsers
 };

@@ -27,7 +27,6 @@ const getTokenAndUser = async (req, res, next) => {
     cachios.cache.flushAll();
     return await res.send('cleared');
   }
-  console.log(`Received request from ${req.authToken}`);
   if (req.authToken === null)
     throwError('APIAuthenticationError', 'Missing Authorization Token', 403);
   try {
@@ -39,7 +38,6 @@ const getTokenAndUser = async (req, res, next) => {
     throwError('APIAuthenticationError', `Invalid Authorization Token '${req.authToken}'`, 403);
   }
   console.log(`authToken: ${req.authToken}`);
-  console.log(`authedUser: ${JSON.stringify(req.authedUser)}`);
   return next();
 };
 

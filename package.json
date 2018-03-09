@@ -12,12 +12,17 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "base64-url": "^2.1.0",
     "body-parser": "^1.18.2",
+    "cachios": "^1.0.8",
+    "capstone-utils": "github:Leveld/LAN-Utils",
+    "cors": "^2.8.4",
     "eslint": "^3.17.1",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "googleapis": "^26.0.1"
   }
 }

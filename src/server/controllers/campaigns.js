@@ -81,7 +81,9 @@ const addContract = async (req, res, next) => {
 
 // GET /campaigns
 const getCampaigns = async (req, res, next) => {
-  let campaigns = await axios.get(`${dbServerIP}campaigns`);
+  let campaigns = await axios.get(`${dbServerIP}campaigns`, {
+    params: req.query
+  });
 
   if(campaigns)
     campaigns = campaigns.data;

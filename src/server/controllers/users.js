@@ -3,10 +3,6 @@ const cachios = require('cachios');
 
 let { apiServerIP, authServerIP, dbServerIP, throwError } = require('capstone-utils');
 
-apiServerIP = 'https://leveld-api.herokuapp.com';
-authServerIP = 'https://leveld-auth.herokuapp.com';
-dbServerIP = 'https://leveld-db.herokuapp.com';
-
 // GET /user
 const getUser = async (req, res, next) => {
   const token = req.authToken;

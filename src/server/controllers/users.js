@@ -1,7 +1,11 @@
 const axios = require('axios');
 const cachios = require('cachios');
 
-const { apiServerIP, authServerIP, dbServerIP, throwError } = require('capstone-utils');
+let { apiServerIP, authServerIP, dbServerIP, throwError } = require('capstone-utils');
+
+apiServerIP = 'https://leveld-api.herokuapp.com';
+authServerIP = 'https://leveld-auth.herokuapp.com';
+dbServerIP = 'https://leveld-db.herokuapp.com';
 
 // GET /user
 const getUser = async (req, res, next) => {
